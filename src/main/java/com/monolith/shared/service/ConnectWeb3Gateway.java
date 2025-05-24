@@ -85,8 +85,14 @@ public class ConnectWeb3Gateway {
 			verifyAddressResponse.setStatusCode(TokenMintConstants.RESPONSE_CODE_FALIURE);
 			verifyAddressResponse.setStatusDescription("Null Response from WEB 3 Gateway");
 		}else {
-			JsonObject respJson = gson.fromJson(response, JsonObject.class);
-			if(respJson != null && !respJson.get("statusCode").isJsonNull() && "000".equals(respJson.get("statusCode").getAsString())) {
+			JsonObject respJson = null;
+			try{
+				respJson = gson.fromJson(response, JsonObject.class);
+			}catch (Exception ex){
+				logger.info("Exception in parsing response of transfer token event : {}",ex.getMessage());
+			}
+
+			if(respJson != null && respJson.get("statusCode") != null && !respJson.get("statusCode").isJsonNull() && "000".equals(respJson.get("statusCode").getAsString())) {
 				verifyAddressResponse.setStatusCode(TokenMintConstants.RESPONSE_CODE_SUCCESS_RESPONSE);
 			}else {
 				verifyAddressResponse.setStatusCode(TokenMintConstants.RESPONSE_CODE_FALIURE);
