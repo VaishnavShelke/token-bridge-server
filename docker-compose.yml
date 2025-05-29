@@ -5,16 +5,40 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: token-bridge-app
+    container_name: token-bridge-server
     ports:
       - "1001:1001"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/tokenmint_global?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      # Database Configuration
+      SPRING_TOKENMINTGLOBAL_DATASOURCE_JDBCURL: jdbc:mysql://tokenmint-mysql:3306/tokenmint_global?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_TOKENMINTGLOBAL_DATASOURCE_USERNAME: root
+      SPRING_TOKENMINTGLOBAL_DATASOURCE_PASSWORD: root
+      SPRING_TOKENMINTGLOBAL_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      
+      # Hibernate Properties
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      
+      # Redis Configuration
+      MOCK_REDIS: "Y"
+      
+      # UI and Service URLs
+      TOKENMINT_UI_PAGE: http://localhost:3000/tokenmint
+      VERIFY_ADDRESS_URL: http://localhost:1001/tokenmint/server/verify-address/
+      LOAD_UI_URL: http://localhost:1001/tokenmint/server/load-ui/
+      GAME_TOKEN_TRANSFER_EVENT_LISTENER_URL: http://localhost:8080/battlegrounds/tokenTransferEventListener
+      
+      # Internal Service URLs
+      INTERNAL_VERIFY_ADDRESS_URL: http://web3-gateway:2001/utility/verifyAddress
+      INTERNAL_TRANSFER_TOKENS_URL: http://web3-gateway:2001/web-3-gateway/tokenmint/transferTokensFromGame
+      
+      # Server Configuration
+      SERVER_PORT: "1001"
     networks:
-      - backend-network
+      - tokenmint-ecosystem
+    restart: unless-stopped
 
 networks:
-  backend-network:
+  tokenmint-ecosystem:
     external: true
