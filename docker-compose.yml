@@ -9,14 +9,24 @@ services:
     ports:
       - "1001:1001"
     environment:
-      # Database Configuration
-      SPRING_TOKENMINTGLOBAL_DATASOURCE_JDBCURL: jdbc:mysql://tokenmint-mysql:3306/tokenmint_global?allowPublicKeyRetrieval=true&useSSL=false
+      # JSP Configuration
+      SPRING_MVC_VIEW_PREFIX: /WEB-INF/views/
+      SPRING_MVC_VIEW_SUFFIX: .jsp
+      
+      # Database Configuration for TokenMint Global
+      SPRING_TOKENMINTGLOBAL_DATASOURCE_JDBC_URL: jdbc:mysql://tokenmint-mysql:3306/tokenmint_global?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_TOKENMINTGLOBAL_DATASOURCE_USERNAME: root
       SPRING_TOKENMINTGLOBAL_DATASOURCE_PASSWORD: root
       SPRING_TOKENMINTGLOBAL_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       
+      # Primary Database Configuration (for JPA)
+      SPRING_DATASOURCE_URL: jdbc:mysql://tokenmint-mysql:3306/tokenmint_global?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      
       # Hibernate Properties
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       
