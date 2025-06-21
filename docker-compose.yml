@@ -27,17 +27,27 @@ services:
       TOKENMINT_UI_PAGE: http://localhost:3000/tokenmint
       VERIFY_ADDRESS_URL: http://localhost:1001/tokenmint/server/verify-address/
       LOAD_UI_URL: http://localhost:1001/tokenmint/server/load-ui/
-      GAME_TOKEN_TRANSFER_EVENT_LISTENER_URL: http://localhost:8080/battlegrounds/tokenTransferEventListener
+      GAME_TOKEN_TRANSFER_EVENT_LISTENER_URL: http://game-server:8080/battlegrounds/tokenTransferEventListener
       
       # Internal Service URLs
       INTERNAL_VERIFY_ADDRESS_URL: http://web3-gateway:2001/utility/verifyAddress
-      INTERNAL_TRANSFER_TOKENS_URL: http://web3-gateway:2001/web-3-gateway/tokenmint/transferTokensFromGame
+      INTERNAL_TRANSFER_TOKENS_URL: http://web3-gateway:2001/web3-gateway/tokenmint/transferTokensFromGame
       
       # Server Configuration
       SERVER_PORT: "1001"
+      
+      # Logging Configuration
+      LOGGING_LEVEL_ROOT: INFO
+      LOGGING_LEVEL_COM_MONOLITH: DEBUG
+      LOGGING_PATTERN_CONSOLE: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
     networks:
       - tokenmint-ecosystem
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   tokenmint-ecosystem:

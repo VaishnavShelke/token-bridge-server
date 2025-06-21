@@ -40,8 +40,6 @@ public class TransferEventPacketInHandler {
 	public void handlerIncomingPacket(TransferEventPacketIn transferEventPacketIn) {
 		logger.info("TransferEventPacketIn :: {}",transferEventPacketIn);
 		String tokenmintTxnId = transferEventPacketIn.getTokenMintTransactionId();
-		tokenmintTxnId = tokenmintTxnId.substring(2);
-		tokenmintTxnId = String.valueOf(Long.parseLong(tokenmintTxnId, 16));
 		logger.info("TransactionId :: {}",tokenmintTxnId);
 		String redisKey = Constants.REDIS_KEY_TOKEN_MINT + tokenmintTxnId;
 		
