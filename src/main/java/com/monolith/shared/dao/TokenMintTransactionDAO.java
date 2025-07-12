@@ -3,19 +3,20 @@ package com.monolith.shared.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.monolith.shared.sqldb.GamesJdbcTemplateFactory;
 import com.monolith.shared.utils.Utility;
 import com.monolith.tokenmint.create.beans.CreateTokenTransactionBean;
 
 @Service
 public class TokenMintTransactionDAO {
 	private static final Logger logger = LoggerFactory.getLogger(TokenMintTransactionDAO.class);
-	
+
 	@Autowired
-	GamesJdbcTemplateFactory gamesJdbcTemplateFactory;
+	@Qualifier("tokenmintjdbctemplate")
+	JdbcTemplate globalJdbcTemplate;
 	
 	public boolean saveTransactionToDB(String gameId,CreateTokenTransactionBean cttbean) {
 		logger.info("Saving TransactionInfo to DB GameId {} and TransactionId {}",gameId,cttbean.getTokenMintTransactionId());
@@ -30,7 +31,7 @@ public class TokenMintTransactionDAO {
 	}
 
 	private boolean saveTxnToDb(String gameId, CreateTokenTransactionBean cttbean,String tablename) {
-		JdbcTemplate jdbcTemplate = gamesJdbcTemplateFactory.getJdbcTemplateForGame(gameId);
+
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("INSERT INTO ");
@@ -45,7 +46,7 @@ public class TokenMintTransactionDAO {
 					cttbean.getTokenMintTransactionId(),Utility.getJsonFromObject(cttbean)
 			};
 			
-			int row = jdbcTemplate.update(insertQueryString,params);
+			int row = globalJdbcTemplate.update(insertQueryString,params);
 			if(row == 1) {
 				logger.info("Transaction saved sucessfullly to table {} ",tablename);
 				return true;
@@ -73,7 +74,6 @@ public class TokenMintTransactionDAO {
 	}
 
 	private boolean updateTxnToDb(String gameId, CreateTokenTransactionBean cttbean, String tablename) {
-		JdbcTemplate jdbcTemplate = gamesJdbcTemplateFactory.getJdbcTemplateForGame(gameId);
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("UPDATE ");
@@ -87,7 +87,7 @@ public class TokenMintTransactionDAO {
 					cttbean.getTokenMintTransactionId()
 			};
 			
-			int row = jdbcTemplate.update(updateQueryString,params);
+			int row = globalJdbcTemplate.update(updateQueryString,params);
 			if(row == 1) {
 				logger.info("Transaction UPDATED sucessfullly to table {} ",tablename);
 				return true;
