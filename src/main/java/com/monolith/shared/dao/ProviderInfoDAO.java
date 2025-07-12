@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.monolith.shared.sqldb.GamesJdbcTemplateFactory;
 import com.monolith.tokenmint.beans.ProviderInfo;
 
 @Service

@@ -24,11 +24,7 @@ public class GameConfigDAO {
 	@Autowired
 	@Qualifier("tokenmintjdbctemplate")
 	JdbcTemplate globalJdbcTemplate;
-	
-	public SQLDataSourceInfo getGameInstannceDataSource(String gameId) {
-		GameConfigInfo gameConfigInfo = getGameConfig(gameId, GameConfigInfo.DATASOURCE_CONFIG_TYPE);
-		return gameConfigInfo.getParsedSqlDataSourceInfo();
-	}
+
 	
 	public String getGameServerEndpointURL(String gameId, GameServerEndpoint gsEdEnum) {
 		GameConfigInfo gameConfigInfo = getGameConfig(gameId, GameConfigInfo.GAMESERVER_ENDPOINTS);
