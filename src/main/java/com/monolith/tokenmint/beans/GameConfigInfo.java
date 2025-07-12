@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.monolith.shared.sqldb.SQLDataSourceInfo;
-import com.monolith.shared.utils.Utility;
 
 import lombok.Data;
 
@@ -18,8 +17,7 @@ import lombok.Data;
 @Data
 public class GameConfigInfo {
 	private static final Logger logger = LoggerFactory.getLogger(GameConfigInfo.class);
-	
-	public static final String DATASOURCE_CONFIG_TYPE = "DATASOURCE";
+
 	public static final String GAMESERVER_ENDPOINTS = "ENDPOINT";
 	
 	private String gameId;
@@ -30,26 +28,6 @@ public class GameConfigInfo {
 	
 	private HashMap<String,String> endpointUrls = null;
 	private SQLDataSourceInfo sqlDataSourceInfo = null;
-	
-	public SQLDataSourceInfo getParsedSqlDataSourceInfo() {
-		try {
-			if(sqlDataSourceInfo != null) {
-				return sqlDataSourceInfo;
-			}else {
-				logger.info("PARSING :: json --> sqlDataSource");
-				sqlDataSourceInfo = Utility.parseJsonToObject(configValue, SQLDataSourceInfo.class);
-				if(sqlDataSourceInfo == null) {
-					logger.error("Could Not Parse the ConfigValue Field");
-				}
-			}
-			return sqlDataSourceInfo;
-		}catch(Error e) {
-			logger.error("Erro in parsing {}",e.getMessage());
-			return null;
-		}
-	
-	}
-	
 	
 	public HashMap<String,String> getParsedEndpointUrlMap(){
 		try {
