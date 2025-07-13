@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ItemInfoBean {
+	private String gameId;
 	private String itemId;
 	private String itemCategory;
 	private String itemTitle;

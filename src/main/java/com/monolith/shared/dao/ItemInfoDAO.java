@@ -23,8 +23,8 @@ public class ItemInfoDAO {
 	
 	public ItemInfoBean getItemInfoFromItemIdForGame(String gameId, String itemId) {
 		try {
-			String query = "SELECT * FROM game_items WHERE item_id=?";
-			List<ItemInfoBean> itemInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ItemInfoBean>(ItemInfoBean.class),itemId);
+			String query = "SELECT * FROM game_items WHERE game_id=? AND item_id=?";
+			List<ItemInfoBean> itemInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ItemInfoBean>(ItemInfoBean.class),gameId,itemId);
 			if(itemInfoList == null || itemInfoList.size()==0) {
 				return null;
 			}else {

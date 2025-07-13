@@ -23,9 +23,9 @@ public class GameItemsOnChainInfoDAO {
 
 	public GameItemsOnChainInfoBean getGameOnChainInfoById(String gameId, String itemId) {
 
-		String query = "SELECT * FROM game_items_on_chain_info WHERE item_id=?";
+		String query = "SELECT * FROM game_items_on_chain_info WHERE game_id=? AND item_id=? ";
 		try {
-			List<GameItemsOnChainInfoBean> itemOnchainInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameItemsOnChainInfoBean>(GameItemsOnChainInfoBean.class),itemId);
+			List<GameItemsOnChainInfoBean> itemOnchainInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameItemsOnChainInfoBean>(GameItemsOnChainInfoBean.class),gameId,itemId);
 			if(itemOnchainInfoList == null || itemOnchainInfoList.size()==0) {
 				return null;
 			}else {

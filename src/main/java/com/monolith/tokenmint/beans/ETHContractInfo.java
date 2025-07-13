@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ETHContractInfo {
 
+	private String gameId;
 	private String ethContractId;
 	private String chain;
 	private String chainId;
