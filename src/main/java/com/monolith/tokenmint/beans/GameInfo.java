@@ -9,4 +9,5 @@ public class GameInfo {
 	private String gameName;
 	private String gameParentCompany;
 	private String gameLogo;
+	private String apiKey;
 }
