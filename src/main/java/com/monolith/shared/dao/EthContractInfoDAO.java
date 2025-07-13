@@ -25,9 +25,9 @@ public class EthContractInfoDAO {
 	
 
 	public ETHContractInfo getEthContractInfoForGame(String gameId, String ethContractId) {
-		String query = "SELECT * FROM eth_contract_info WHERE eth_contract_id=?";
+		String query = "SELECT * FROM eth_contract_info WHERE game_id=? AND eth_contract_id=?";
 		try {
-			List<ETHContractInfo> ethContractInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ETHContractInfo>(ETHContractInfo.class),ethContractId);
+			List<ETHContractInfo> ethContractInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ETHContractInfo>(ETHContractInfo.class),gameId,ethContractId);
 			if(ethContractInfoList == null || ethContractInfoList.size()==0) {
 				return null;
 			}else {
