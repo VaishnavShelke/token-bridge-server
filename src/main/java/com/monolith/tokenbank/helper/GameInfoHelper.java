@@ -130,4 +130,42 @@ public class GameInfoHelper {
             throw new RuntimeException("Error editing game: " + e.getMessage(), e);
         }
     }
+
+    public boolean deleteGame(OnBoardGameRequest onBoardGameRequest) {
+        try {
+            // Validate input
+            if (onBoardGameRequest == null || 
+                Utility.isNullOrEmpty(onBoardGameRequest.getGameId())) {
+                
+                logger.error("{}Validation failed - Game ID is required for deletion", TOKEN_BANK_PREPEND);
+                throw new IllegalArgumentException("Game ID is required for deletion");
+            }
+
+            String gameId = onBoardGameRequest.getGameId();
+
+            // Check if game exists (required for deletion)
+            if (!gameInfoDAO.doesGameExist(gameId)) {
+                logger.error("{}Game does not exist with ID: {}, cannot delete non-existent game", TOKEN_BANK_PREPEND, gameId);
+                throw new RuntimeException("Game does not exist with ID: " + gameId);
+            }
+
+            // Delete the game
+            boolean deleted = gameInfoDAO.deleteGameInfo(gameId);
+            
+            if (deleted) {
+                logger.info("{}Successfully deleted game: {}", TOKEN_BANK_PREPEND, gameId);
+                return true;
+            } else {
+                logger.error("{}Failed to delete game info for ID: {}", TOKEN_BANK_PREPEND, gameId);
+                throw new RuntimeException("Failed to delete game information from database");
+            }
+
+        } catch (IllegalArgumentException e) {
+            logger.error("{}Validation error in deleteGame: {}", TOKEN_BANK_PREPEND, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("{}Error deleting game: {}", TOKEN_BANK_PREPEND, e.getMessage(), e);
+            throw new RuntimeException("Error deleting game: " + e.getMessage(), e);
+        }
+    }
 }

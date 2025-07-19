@@ -19,6 +19,7 @@ public class TokenBankConstants {
     public static final String MESSAGE_INTERNAL_ERROR = "Internal server error occurred";
     public static final String MESSAGE_GAME_ONBOARDED = "Game onboarded successfully";
     public static final String MESSAGE_GAME_EDITED = "Game edited successfully";
+    public static final String MESSAGE_GAME_DELETED = "Game deleted successfully";
     public static final String MESSAGE_GAME_MISMATCH = "User is already associated with a different game";
     public static final String MESSAGE_USER_NOT_FOUND = "User not found";
     

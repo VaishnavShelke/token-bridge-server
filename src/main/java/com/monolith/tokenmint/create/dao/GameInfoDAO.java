@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -92,6 +91,35 @@ public class GameInfoDAO {
 			}
 		} catch (Exception e) {
 			logger.error("Error while updating game info for gameId: {}, gameName: {} :: {}", gameInfo.getGameId(), gameInfo.getGameName(), e.getMessage());
+		}
+		return false;
+	}
+
+	public List<GameInfo> getAllGames() {
+		String query = "SELECT * FROM game_info WHERE game_id != 'DEFAULT_GAME' ORDER BY game_id";
+		try {
+			List<GameInfo> gameInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameInfo>(GameInfo.class));
+			logger.info("Retrieved {} games from database", gameInfoList.size());
+			return gameInfoList;
+		} catch (Exception e) {
+			logger.error("Error while fetching all games :: {}", e.getMessage());
+			return null;
+		}
+	}
+
+	public boolean deleteGameInfo(String gameId) {
+		try {
+			String query = "DELETE FROM game_info WHERE game_id = ?";
+			int rowsDeleted = globalJdbcTemplate.update(query, gameId);
+
+			if (rowsDeleted > 0) {
+				logger.info("Successfully deleted game info for gameId: {}", gameId);
+				return true;
+			} else {
+				logger.warn("Failed to delete game info for gameId: {} - no rows affected", gameId);
+			}
+		} catch (Exception e) {
+			logger.error("Error while deleting game info for gameId: {} :: {}", gameId, e.getMessage());
 		}
 		return false;
 	}
