@@ -113,4 +113,29 @@ public class ItemInfoDAO {
             throw new RuntimeException("Failed to generate incremental item ID for game: " + gameId, e);
         }
     }
+
+    /**
+     * Updates the status of a specific item to DEAD
+     * 
+     * @param gameId The game ID
+     * @param itemId The item ID to update
+     * @return true if the update was successful, false otherwise
+     */
+    public boolean updateItemStatusToDead(String gameId, String itemId) {
+        try {
+            String query = "UPDATE game_items SET item_status = 'DEAD' WHERE game_id = ? AND item_id = ?";
+            int rowsAffected = globalJdbcTemplate.update(query, gameId, itemId);
+            
+            if (rowsAffected > 0) {
+                logger.info("Successfully updated item status to DEAD for item: {} in game: {}", itemId, gameId);
+                return true;
+            } else {
+                logger.warn("No rows affected when updating item: {} in game: {} to DEAD status", itemId, gameId);
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Error while updating item status to DEAD for item: {} in game: {} error :: {}", itemId, gameId, e.getMessage());
+            throw new RuntimeException("Failed to update item status to DEAD for item: " + itemId + " in game: " + gameId, e);
+        }
+    }
 }
