@@ -20,54 +20,22 @@ public class TokenBankUserCredsHelper {
     private TokenBankUserCredsDAO tokenBankUserCredsDAO;
 
     public TokenBankCreateUserResponse createUser(TokenBankCreateUserRequest createUserRequest) {
-        try {
-            // Validate input
-            if (createUserRequest == null ||
-                    Utility.isNullOrEmpty(createUserRequest.getUsername()) ||
-                    Utility.isNullOrEmpty(createUserRequest.getPassword())) {
-
-                logger.error("{}Validation failed - Username and password are required",TOKEN_BANK_PREPEND);
-                return new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_VALIDATION_FAILED, TokenBankConstants.MESSAGE_VALIDATION_FAILED);
-            }
-
-            String username = createUserRequest.getUsername();
-            String password = createUserRequest.getPassword();
-
-            // Check if user already exists
-            if (tokenBankUserCredsDAO.doesUserExist(username)) {
-                logger.warn("{}User already exists with username: {}",TOKEN_BANK_PREPEND, username);
-                TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_USER_ALREADY_EXISTS, TokenBankConstants.MESSAGE_USER_ALREADY_EXISTS);
-                response.setUsername(username);
-                return response;
-            }
-
-            // Create user credentials bean
-            TokenBankUserCreds userCreds = new TokenBankUserCreds();
-            userCreds.setUsername(username);
-            userCreds.setPassword(password);
-            userCreds.setGameId(TokenBankConstants.DEFAULT_GAME_ID);
-            userCreds.setUserRole(TokenBankConstants.DEFAULT_USER_ROLE);
-
-            // Save user to database
-            boolean saved = tokenBankUserCredsDAO.saveTokenBankUserCreds(userCreds);
-
-            if (saved) {
-                logger.info("{}Successfully created user: {}",TOKEN_BANK_PREPEND, username);
-                TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_SUCCESS, TokenBankConstants.MESSAGE_SUCCESS);
-                response.setUsername(username);
-                return response;
-            } else {
-                logger.error("{}Failed to save user to database: {}",TOKEN_BANK_PREPEND, username);
-                return new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_INTERNAL_ERROR, TokenBankConstants.MESSAGE_INTERNAL_ERROR);
-            }
-
-        } catch (Exception e) {
-            logger.error("{}Error creating user: {}",TOKEN_BANK_PREPEND, e.getMessage(), e);
-            return new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_INTERNAL_ERROR, TokenBankConstants.MESSAGE_INTERNAL_ERROR);
+        String username = createUserRequest.getUsername();
+        if (tokenBankUserCredsDAO.doesUserExist(username)) {
+            logger.warn("{}User already exists with username: {}", TOKEN_BANK_PREPEND, username);
+            TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_USER_ALREADY_EXISTS, TokenBankConstants.MESSAGE_USER_ALREADY_EXISTS);
+            response.setUsername(username);
+            return response;
         }
+        TokenBankUserCreds userCreds = new TokenBankUserCreds();
+        TokenBankPojoHelper.setTokenBankUserCredsFromTokenBankCreateUserRequest(userCreds,createUserRequest);
+        tokenBankUserCredsDAO.saveTokenBankUserCreds(userCreds);
+        TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_SUCCESS, TokenBankConstants.MESSAGE_SUCCESS);
+        response.setUsername(username);
+        return response;
     }
 
-    public String validateUserHasAccessToGameAndReturnGameId(String username,String requestedGameId) {
+    public String validateUserHasAccessToGameAndReturnGameId(String username, String requestedGameId) {
 
         TokenBankUserCreds userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
         if (userCreds == null) {
@@ -85,7 +53,7 @@ public class TokenBankUserCredsHelper {
                     username, requestedGameId, TokenBankConstants.ADMIN_USER_ROLE);
             if (!updated) {
                 logger.error("{}Failed to update user {} with game {} and ADMIN role",
-                        TOKEN_BANK_PREPEND,username, requestedGameId);
+                        TOKEN_BANK_PREPEND, username, requestedGameId);
                 throw new RuntimeException("Failed to update user game association");
             }
         } else {
@@ -100,5 +68,32 @@ public class TokenBankUserCredsHelper {
                     TOKEN_BANK_PREPEND, username, currentGameId);
         }
         return requestedGameId;
+    }
+
+    public void validateUserIsAdminForGame(String username, String gameId) {
+        try {
+            TokenBankUserCreds userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
+            if (userCreds == null) {
+                logger.error("{}User not found: {}", TOKEN_BANK_PREPEND, username);
+                throw new IllegalArgumentException(TokenBankConstants.MESSAGE_USER_NOT_FOUND);
+            }
+
+            if (!gameId.equals(userCreds.getGameId())) {
+                logger.error("{}User {} is not associated with game {}", TOKEN_BANK_PREPEND, username, gameId);
+                throw new IllegalArgumentException(TokenBankConstants.MESSAGE_GAME_MISMATCH +
+                        ". User is associated with game: " + userCreds.getGameId() +
+                        " but requested game: " + gameId);
+            }
+
+            if (!TokenBankConstants.ADMIN_USER_ROLE.equals(userCreds.getUserRole())) {
+                logger.error("{}User {} does not have admin role for game {}", TOKEN_BANK_PREPEND, username, gameId);
+                throw new IllegalArgumentException("User does not have admin privileges for the requested game");
+            }
+
+            logger.info("{}User {} is validated as admin for game {}", TOKEN_BANK_PREPEND, username, gameId);
+        } catch (Exception e) {
+            logger.error("{}Error validating admin access for user {} and game {}: {}", TOKEN_BANK_PREPEND, username, gameId, e.getMessage());
+            throw new RuntimeException("Failed to validate admin access: " + e.getMessage(), e);
+        }
     }
 }

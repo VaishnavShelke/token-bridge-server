@@ -3,6 +3,7 @@ package com.monolith.tokenbank.controller;
 import com.monolith.tokenbank.dto.AllGamesResponse;
 import com.monolith.tokenbank.dto.OnBoardGameRequest;
 import com.monolith.tokenbank.dto.OnboardGameResponse;
+import com.monolith.tokenbank.service.TokenBankGameInfoCrudService;
 import com.monolith.tokenbank.service.TokenBankUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +22,16 @@ public class TokenBankGameInfoCrudController {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenBankGameInfoCrudController.class);
 
+
     @Autowired
-    TokenBankUserService tokenBankUserService;
+    TokenBankGameInfoCrudService tokenBankGameInfoCrudService;
 
 
     @PostMapping(path = "")
     public ResponseEntity<OnboardGameResponse> onboardGame(@RequestBody OnBoardGameRequest onBoardGameRequest){
         logger.info("{} :: Received onboard game request : {}",TOKEN_BANK_PREPEND, onBoardGameRequest.getUsername());
         try {
-            OnboardGameResponse response = tokenBankUserService.onboardGame(onBoardGameRequest);
+            OnboardGameResponse response = tokenBankGameInfoCrudService.onboardGame(onBoardGameRequest);
             return ResponseEntity.ok(response);
         } catch (Exception ex) {
             logger.error("{} Error onboarding game: {}",TOKEN_BANK_PREPEND, ex.getMessage(), ex);
@@ -42,7 +44,7 @@ public class TokenBankGameInfoCrudController {
     public ResponseEntity<OnboardGameResponse> editGameConfig(@RequestBody OnBoardGameRequest onBoardGameRequest){
         logger.info("{} :: Received edit game request : {}",TOKEN_BANK_PREPEND, onBoardGameRequest.getUsername());
         try {
-            OnboardGameResponse response = tokenBankUserService.editGame(onBoardGameRequest);
+            OnboardGameResponse response = tokenBankGameInfoCrudService.editGame(onBoardGameRequest);
             return ResponseEntity.ok(response);
         } catch (Exception ex) {
             logger.error("{} Error in edit game: {}",TOKEN_BANK_PREPEND, ex.getMessage(), ex);
@@ -56,7 +58,7 @@ public class TokenBankGameInfoCrudController {
     public ResponseEntity<OnboardGameResponse> deleteGame(@RequestBody OnBoardGameRequest onBoardGameRequest){
         logger.info("{} :: Received delete game request : {}",TOKEN_BANK_PREPEND, onBoardGameRequest.getUsername());
         try {
-            OnboardGameResponse response = tokenBankUserService.deleteGame(onBoardGameRequest);
+            OnboardGameResponse response = tokenBankGameInfoCrudService.deleteGame(onBoardGameRequest);
             return ResponseEntity.ok(response);
         } catch (Exception ex) {
             logger.error("{} Error deleting game: {}",TOKEN_BANK_PREPEND, ex.getMessage(), ex);
@@ -69,7 +71,7 @@ public class TokenBankGameInfoCrudController {
     public ResponseEntity<AllGamesResponse> getAllGames() {
         logger.info("{} :: Received request to get all games", TOKEN_BANK_PREPEND);
         try {
-            AllGamesResponse response = tokenBankUserService.getAllGames();
+            AllGamesResponse response = tokenBankGameInfoCrudService.getAllGames();
             return ResponseEntity.ok(response);
         } catch (Exception ex) {
             logger.error("{} Error getting all games: {}", TOKEN_BANK_PREPEND, ex.getMessage(), ex);

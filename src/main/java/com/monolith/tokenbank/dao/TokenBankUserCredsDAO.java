@@ -47,7 +47,7 @@ public class TokenBankUserCredsDAO {
         try {
             String query = "UPDATE tokenbank_user_creds SET game_id = ?, user_role = ? WHERE username = ?";
             int rowsUpdated = globalJdbcTemplate.update(query, gameId, userRole, username);
-            
+
             if (rowsUpdated > 0) {
                 logger.info("TokenBank :: Successfully updated user {} with gameId: {} and role: {}", username, gameId, userRole);
                 return true;
@@ -60,27 +60,24 @@ public class TokenBankUserCredsDAO {
         return false;
     }
 
-    public boolean saveTokenBankUserCreds(TokenBankUserCreds tokenBankUserCreds) {
-        try {
-            String query = "INSERT INTO tokenbank_user_creds (username, password, game_id, user_role) VALUES (?, ?, ?, ?)";
-            int rowsInserted = globalJdbcTemplate.update(
-                    query,
-                    tokenBankUserCreds.getUsername(),  // Corrected
-                    tokenBankUserCreds.getPassword(),
-                    tokenBankUserCreds.getGameId(),
-                    tokenBankUserCreds.getUserRole()
-            );
+    public void saveTokenBankUserCreds(TokenBankUserCreds tokenBankUserCreds) {
 
-            if (rowsInserted > 0) {
-                logger.info("TokenBank :: Successfully saved user creds for gameId: {}, Username: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername());
-                return true;
-            } else {
-                logger.warn("TokenBank :: Failed to save user creds for gameId: {}, Username: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername());
-            }
-        } catch (Exception e) {
-            logger.error("TokenBank :: Error while saving user creds for gameId: {}, Username: {} :: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername(), e.getMessage());
+        String query = "INSERT INTO tokenbank_user_creds (username, password, game_id, user_role) VALUES (?, ?, ?, ?)";
+        int rowsInserted = globalJdbcTemplate.update(
+                query,
+                tokenBankUserCreds.getUsername(),  // Corrected
+                tokenBankUserCreds.getPassword(),
+                tokenBankUserCreds.getGameId(),
+                tokenBankUserCreds.getUserRole()
+        );
+
+        if (rowsInserted > 0) {
+            logger.info("TokenBank :: Successfully saved user creds for gameId: {}, Username: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername());
+        } else {
+            logger.warn("TokenBank :: Failed to save user creds for gameId: {}, Username: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername());
+            throw new RuntimeException("Failed to save user creds");
         }
-        return false;
+
     }
 
     private static class TokenBankUserCredsRowMapper implements RowMapper<TokenBankUserCreds> {
