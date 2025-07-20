@@ -15,112 +15,94 @@ import com.monolith.tokenmint.beans.GameInfo;
 @Service
 public class GameInfoDAO {
 
-	private static final Logger logger = LoggerFactory.getLogger(GameInfoDAO.class);
-	
-	@Autowired
-	@Qualifier("tokenmintjdbctemplate")
-	JdbcTemplate globalJdbcTemplate;
-	
-	
-	public GameInfo getGameInfoByGameId(String gameId) {
-		String query = "SELECT * FROM game_info WHERE game_id=?";
-		try {
-			List<GameInfo> gameInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameInfo>(GameInfo.class),gameId);
-			if(gameInfoList == null || gameInfoList.size()==0) {
-				return null;
-			}else {
-				return gameInfoList.get(0);
-			}
-		}catch (Exception e) {
-			logger.error("Error While fetching gameInfo Info for game {} {}",gameId,e.getMessage());
-		}
-		return null;
-	}
+    private static final Logger logger = LoggerFactory.getLogger(GameInfoDAO.class);
 
-	public boolean saveGameInfo(GameInfo gameInfo) {
-		try {
-			String query = "INSERT INTO game_info (game_id, game_name, game_parent_company, game_logo, api_key) VALUES (?, ?, ?, ?, ?)";
-			int rowsInserted = globalJdbcTemplate.update(
-				query,
-				gameInfo.getGameId(),
-				gameInfo.getGameName(),
-				gameInfo.getGameParentCompany(),
-				gameInfo.getGameLogo(),
-					gameInfo.getApiKey()
-			);
+    @Autowired
+    @Qualifier("tokenmintjdbctemplate")
+    JdbcTemplate globalJdbcTemplate;
 
-			if (rowsInserted > 0) {
-				logger.info("Successfully saved game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
-				return true;
-			} else {
-				logger.warn("Failed to save game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
-			}
-		} catch (Exception e) {
-			logger.error("Error while saving game info for gameId: {}, gameName: {} :: {}", gameInfo.getGameId(), gameInfo.getGameName(), e.getMessage());
-		}
-		return false;
-	}
 
-	public boolean doesGameExist(String gameId) {
-		try {
-			String query = "SELECT COUNT(*) FROM game_info WHERE game_id = ?";
-			Integer count = globalJdbcTemplate.queryForObject(query, Integer.class, gameId);
-			return count != null && count > 0;
-		} catch (Exception e) {
-			logger.error("Error while checking if game exists for gameId: {} :: {}", gameId, e.getMessage());
-			return false;
-		}
-	}
+    public GameInfo getGameInfoByGameId(String gameId) {
+        String query = "SELECT * FROM game_info WHERE game_id=?";
+        List<GameInfo> gameInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameInfo>(GameInfo.class), gameId);
+        if (gameInfoList == null || gameInfoList.size() == 0) {
+            return null;
+        } else {
+            return gameInfoList.get(0);
+        }
+    }
 
-	public boolean updateGameInfo(GameInfo gameInfo) {
-		try {
-			String query = "UPDATE game_info SET game_name = ?, game_parent_company = ?, game_logo = ? WHERE game_id = ?";
-			int rowsUpdated = globalJdbcTemplate.update(
-				query,
-				gameInfo.getGameName(),
-				gameInfo.getGameParentCompany(),
-				gameInfo.getGameLogo(),
-				gameInfo.getGameId()
-			);
+    public void saveGameInfo(GameInfo gameInfo) {
+        String query = "INSERT INTO game_info (game_id, game_name, game_parent_company, game_logo, api_key) VALUES (?, ?, ?, ?, ?)";
+        int rowsInserted = globalJdbcTemplate.update(
+                query,
+                gameInfo.getGameId(),
+                gameInfo.getGameName(),
+                gameInfo.getGameParentCompany(),
+                gameInfo.getGameLogo(),
+                gameInfo.getApiKey()
+        );
+        if (rowsInserted > 0) {
+            logger.info("Successfully saved game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
 
-			if (rowsUpdated > 0) {
-				logger.info("Successfully updated game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
-				return true;
-			} else {
-				logger.warn("Failed to update game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
-			}
-		} catch (Exception e) {
-			logger.error("Error while updating game info for gameId: {}, gameName: {} :: {}", gameInfo.getGameId(), gameInfo.getGameName(), e.getMessage());
-		}
-		return false;
-	}
+        } else {
+            throw new RuntimeException("Failed to Save The Game");
+        }
+    }
 
-	public List<GameInfo> getAllGames() {
-		String query = "SELECT * FROM game_info WHERE game_id != 'DEFAULT_GAME' ORDER BY game_id";
-		try {
-			List<GameInfo> gameInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameInfo>(GameInfo.class));
-			logger.info("Retrieved {} games from database", gameInfoList.size());
-			return gameInfoList;
-		} catch (Exception e) {
-			logger.error("Error while fetching all games :: {}", e.getMessage());
-			return null;
-		}
-	}
+    public boolean doesGameExist(String gameId) {
+        try {
+            String query = "SELECT COUNT(*) FROM game_info WHERE game_id = ?";
+            Integer count = globalJdbcTemplate.queryForObject(query, Integer.class, gameId);
+            return count != null && count > 0;
+        } catch (Exception e) {
+            logger.error("Error while checking if game exists for gameId: {} :: {}", gameId, e.getMessage());
+            return false;
+        }
+    }
 
-	public boolean deleteGameInfo(String gameId) {
-		try {
-			String query = "DELETE FROM game_info WHERE game_id = ?";
-			int rowsDeleted = globalJdbcTemplate.update(query, gameId);
+    public void updateGameInfo(GameInfo gameInfo) {
 
-			if (rowsDeleted > 0) {
-				logger.info("Successfully deleted game info for gameId: {}", gameId);
-				return true;
-			} else {
-				logger.warn("Failed to delete game info for gameId: {} - no rows affected", gameId);
-			}
-		} catch (Exception e) {
-			logger.error("Error while deleting game info for gameId: {} :: {}", gameId, e.getMessage());
-		}
-		return false;
-	}
+        String query = "UPDATE game_info SET game_name = ?, game_parent_company = ?, game_logo = ? WHERE game_id = ?";
+        int rowsUpdated = globalJdbcTemplate.update(
+                query,
+                gameInfo.getGameName(),
+                gameInfo.getGameParentCompany(),
+                gameInfo.getGameLogo(),
+                gameInfo.getGameId()
+        );
+
+        if (rowsUpdated > 0) {
+            logger.info("Successfully updated game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
+        } else {
+            logger.warn("Failed to update game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
+            throw new RuntimeException("Failed to update game info");
+        }
+
+    }
+
+    public List<GameInfo> getAllGames() {
+        String query = "SELECT * FROM game_info WHERE game_id != 'DEFAULT_GAME' ORDER BY game_id";
+        try {
+            List<GameInfo> gameInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameInfo>(GameInfo.class));
+            logger.info("Retrieved {} games from database", gameInfoList.size());
+            return gameInfoList;
+        } catch (Exception e) {
+            logger.error("Error while fetching all games :: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public void deleteGameInfo(String gameId) {
+
+        String query = "DELETE FROM game_info WHERE game_id = ?";
+        int rowsDeleted = globalJdbcTemplate.update(query, gameId);
+
+        if (rowsDeleted > 0) {
+            logger.info("Successfully deleted game info for gameId: {}", gameId);
+        } else {
+            logger.warn("Failed to delete game info for gameId: {} - no rows affected", gameId);
+            throw new RuntimeException("Failed to delete game");
+        }
+    }
 }

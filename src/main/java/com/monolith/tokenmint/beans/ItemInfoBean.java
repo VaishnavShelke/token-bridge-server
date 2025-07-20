@@ -6,10 +6,11 @@ import lombok.Data;
 public class ItemInfoBean {
 	private String gameId;
 	private String itemId;
+	private Integer contractItemId;
 	private String itemCategory;
 	private String itemTitle;
 	private String itemDescription;
 	private String itemImgUrl;
-	private String itemQuantity;
-	private String itemPrice;
+	private ItemStatus itemStatus = ItemStatus.ALIVE; // Default value as per schema
+	private String itemQuantity; // Runtime field for minting/transfer operations, not stored in DB
 }

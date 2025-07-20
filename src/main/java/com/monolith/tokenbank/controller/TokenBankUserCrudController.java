@@ -4,6 +4,7 @@ import com.monolith.tokenbank.dto.AllGamesResponse;
 import com.monolith.tokenbank.dto.TokenBankCreateUserRequest;
 import com.monolith.tokenbank.dto.TokenBankCreateUserResponse;
 import com.monolith.tokenbank.service.TokenBankUserService;
+import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,25 +26,11 @@ public class TokenBankUserCrudController {
     @Autowired
     TokenBankUserService tokenBankUserService;
 
-    @PostMapping(path = "", 
-                consumes = MediaType.APPLICATION_JSON_VALUE,
-                produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TokenBankCreateUserResponse> createTokenBankUser(@RequestBody TokenBankCreateUserRequest createUserRequest) {
         logger.info("{} :: Received create user request for username: {}", TOKEN_BANK_PREPEND, createUserRequest.getUsername());
-        
-        // Input validation
-        if (createUserRequest.getUsername() == null || createUserRequest.getUsername().trim().isEmpty()) {
-            logger.warn("{} :: Username is required for user creation", TOKEN_BANK_PREPEND);
-            TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(STATUS_CODE_VALIDATION_FAILED, "Username is required");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        if (createUserRequest.getPassword() == null || createUserRequest.getPassword().trim().isEmpty()) {
-            logger.warn("{} :: Password is required for user creation", TOKEN_BANK_PREPEND);
-            TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(STATUS_CODE_VALIDATION_FAILED, "Password is required");
-            return ResponseEntity.badRequest().body(response);
-        }
-        
         try {
             TokenBankCreateUserResponse response = tokenBankUserService.createUser(createUserRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);

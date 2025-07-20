@@ -30,4 +30,34 @@ public class TokenBankUtil {
         }
         return apiKey.toString();
     }
+    
+    /**
+     * Generates a unique item ID that fits within 20 characters
+     * Format: ITEM_[timestamp][random] (max 20 chars)
+     */
+    public static String generateItemId() {
+        // Use current timestamp (last 8 digits) + 3 random chars
+        // This gives us ITEM_ (5) + 8 digits + 3 random = 16 chars (well within 20 limit)
+        long timestamp = System.currentTimeMillis();
+        String timestampSuffix = String.valueOf(timestamp).substring(5); // Last 8 digits
+        
+        StringBuilder randomSuffix = new StringBuilder(3);
+        for (int i = 0; i < 3; i++) {
+            int index = RANDOM.nextInt(CHARACTERS.length());
+            randomSuffix.append(CHARACTERS.charAt(index));
+        }
+        
+        return "ITEM_" + timestampSuffix + randomSuffix.toString();
+    }
+
+    /**
+     * Generates an incremental item ID with the given number
+     * Format: ITEM_XXX where XXX is a zero-padded 3-digit number
+     * 
+     * @param itemNumber The sequential number for the item
+     * @return Formatted item ID (e.g., "ITEM_001", "ITEM_002", etc.)
+     */
+    public static String generateIncrementalItemId(int itemNumber) {
+        return String.format("ITEM_%03d", itemNumber);
+    }
 }
