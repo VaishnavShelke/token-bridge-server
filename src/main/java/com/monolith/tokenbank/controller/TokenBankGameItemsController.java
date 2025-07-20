@@ -4,6 +4,8 @@ import com.monolith.shared.utils.Utility;
 import com.monolith.tokenbank.dto.AddGameItemRequest;
 import com.monolith.tokenbank.dto.AddGameItemResponse;
 import com.monolith.tokenbank.dto.AllGameItemsResponse;
+import com.monolith.tokenbank.dto.UnAliveItemRequest;
+import com.monolith.tokenbank.dto.UnAliveItemResponse;
 import com.monolith.tokenbank.service.TokenBankInGameAssetsService;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
@@ -55,6 +57,24 @@ public class TokenBankGameItemsController {
             httpStatus = HttpStatus.OK;
         } catch (Exception ex) {
             logger.error("{} Error adding game item for user {}: {}", TOKEN_BANK_PREPEND, addGameItemRequest.getUsername(), ex.getMessage(), ex);
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return ResponseEntity.status(httpStatus).body(response);
+    }
+
+    @PutMapping(path = "/unalive",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UnAliveItemResponse> unAliveItem(@RequestBody UnAliveItemRequest unAliveItemRequest) {
+        logger.info("{} :: Received request to unAlive item {} for game: {} by user: {}", TOKEN_BANK_PREPEND, unAliveItemRequest.getItemId(), unAliveItemRequest.getGameId(), unAliveItemRequest.getUsername());
+        UnAliveItemResponse response = null;
+        HttpStatus httpStatus = null;
+        try {
+            response = tokenBankInGameAssetsService.unAliveItem(unAliveItemRequest);
+            httpStatus = HttpStatus.OK;
+        } catch (Exception ex) {
+            logger.error("{} Error unAliving item {} for user {}: {}", TOKEN_BANK_PREPEND, unAliveItemRequest.getItemId(), unAliveItemRequest.getUsername(), ex.getMessage(), ex);
+            response = new UnAliveItemResponse(STATUS_CODE_INTERNAL_ERROR, "Error unAliving item: " + ex.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return ResponseEntity.status(httpStatus).body(response);
