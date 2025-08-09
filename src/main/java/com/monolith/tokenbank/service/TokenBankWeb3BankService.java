@@ -31,8 +31,7 @@ public class TokenBankWeb3BankService {
             ETHContractInfo mockEthContractInfo = createMockEthContractInfo(request.getGameId());
 
             // Insert into database
-//            boolean success = ethContractInfoDAO.insertEthContractInfo(mockEthContractInfo);
-            boolean success = true;
+            boolean success = ethContractInfoDAO.insertEthContractInfo(mockEthContractInfo);
             if (success) {
                 logger.info("{} :: Successfully created mock ETH contract info for game: {}", TOKEN_BANK_PREPEND, request.getGameId());
                 return new AddEthContractResponse(STATUS_CODE_SUCCESS, "Mock ETH contract info created successfully", mockEthContractInfo);
