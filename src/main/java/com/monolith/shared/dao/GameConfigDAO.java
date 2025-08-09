@@ -2,19 +2,15 @@ package com.monolith.shared.dao;
 
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.monolith.shared.sqldb.SQLDataSourceInfo;
 import com.monolith.shared.utils.GameServerConstants.GameServerEndpoint;
 import com.monolith.tokenmint.beans.GameConfigInfo;
+import com.monolith.tokenmint.repository.GameConfigRepository;
 
 @Service
 public class GameConfigDAO {
@@ -22,8 +18,7 @@ public class GameConfigDAO {
 	private static final Logger logger = LoggerFactory.getLogger(GameConfigDAO.class);
 
 	@Autowired
-	@Qualifier("tokenmintjdbctemplate")
-	JdbcTemplate globalJdbcTemplate;
+	private GameConfigRepository gameConfigRepository;
 
 	
 	public String getGameServerEndpointURL(String gameId, GameServerEndpoint gsEdEnum) {
@@ -36,18 +31,12 @@ public class GameConfigDAO {
 	}
 	
 	public GameConfigInfo getGameConfig(String gameId,String configType) {
-		String query = "SELECT * FROM game_config WHERE game_id=? AND config_type=?";
 		try {
-			List<GameConfigInfo> gameConfigInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<GameConfigInfo>(GameConfigInfo.class),gameId,configType);
-			if(gameConfigInfoList == null || gameConfigInfoList.size()==0) {
-				return null;
-			}else {
-				return gameConfigInfoList.get(0);
-			}
+			return gameConfigRepository.findByGameIdAndConfigType(gameId, configType).orElse(null);
 		}catch (Exception e) {
-			logger.error("Error Whil fetching gameDataSource Info for game {} {}",gameId,e.getMessage());
+			logger.error("Error While fetching gameDataSource Info for game {} {}",gameId,e.getMessage());
+			return null;
 		}
-		return null;
 	}
 	
 }

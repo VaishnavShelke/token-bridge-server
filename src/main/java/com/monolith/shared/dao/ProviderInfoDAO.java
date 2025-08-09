@@ -1,35 +1,31 @@
 package com.monolith.shared.dao;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.monolith.tokenmint.beans.ProviderInfo;
+import com.monolith.tokenmint.repository.ProviderInfoRepository;
 
 @Service
 public class ProviderInfoDAO {
 	
-
 	private static final Logger logger = LoggerFactory.getLogger(ProviderInfoDAO.class);
 	
 	@Autowired
-	@Qualifier("tokenmintjdbctemplate")
-	JdbcTemplate globalJdbcTemplate;
+	private ProviderInfoRepository providerInfoRepository;
 	
 	public ProviderInfo getProviderInfo(String providerId) {
-		String query = "SELECT * FROM chain_provider_info WHERE provider_id=?";
-		List<ProviderInfo> providerInfoList= globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ProviderInfo>(ProviderInfo.class),providerId);
-		if(providerInfoList == null || providerInfoList.size()==0) {
-			logger.error("Provider Info not present for provider Id {}",providerId);
+		try {
+			ProviderInfo providerInfo = providerInfoRepository.findById(providerId).orElse(null);
+			if(providerInfo == null) {
+				logger.error("Provider Info not present for provider Id {}",providerId);
+			}
+			return providerInfo;
+		} catch (Exception e) {
+			logger.error("Error while fetching provider info for provider Id {} :: {}", providerId, e.getMessage());
 			return null;
-		}else {
-			return providerInfoList.get(0);
 		}
 	}
 }
