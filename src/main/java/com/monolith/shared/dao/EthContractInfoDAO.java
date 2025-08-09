@@ -27,4 +27,17 @@ public class EthContractInfoDAO {
 		}
 	}
 
+	public boolean insertEthContractInfo(ETHContractInfo ethContractInfo) {
+		try {
+			ethContractInfoRepository.save(ethContractInfo);
+			logger.info("Successfully saved ETH contract info for game: {} with contract ID: {}", 
+				ethContractInfo.getGameId(), ethContractInfo.getEthContractId());
+			return true;
+		} catch (Exception e) {
+			logger.error("Error while saving ETH contract info for game: {} with contract ID: {} - Error: {}", 
+				ethContractInfo.getGameId(), ethContractInfo.getEthContractId(), e.getMessage(), e);
+			return false;
+		}
+	}
+
 }
