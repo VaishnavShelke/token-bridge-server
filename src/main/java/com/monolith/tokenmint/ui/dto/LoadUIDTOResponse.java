@@ -1,8 +1,8 @@
 package com.monolith.tokenmint.ui.dto;
 
 import com.monolith.tokenmint.beans.CommonDTOFields;
-import com.monolith.tokenmint.beans.ETHContractInfo;
-import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.entities.ETHContractInfo;
+import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.beans.PlayerInfo;
 import com.monolith.tokenmint.create.beans.TokenMintTransactionInfo;
 import com.monolith.tokentrade.TokenMintUserInfo;

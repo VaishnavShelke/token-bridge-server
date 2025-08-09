@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.beans.OperatorInfoBean;
+import com.monolith.tokenmint.entities.OperatorInfoBean;
 import com.monolith.tokenmint.repository.OperatorInfoRepository;
 
 @Service

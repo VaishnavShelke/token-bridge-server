@@ -1,4 +1,4 @@
-package com.monolith.tokenbank.beans;
+package com.monolith.tokenbank.entities;
 
 import lombok.Data;
 import jakarta.persistence.*;

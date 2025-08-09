@@ -1,6 +1,6 @@
 package com.monolith.tokenbank.dao;
 
-import com.monolith.tokenbank.beans.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCreds;
 import com.monolith.tokenbank.repository.TokenBankUserCredsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

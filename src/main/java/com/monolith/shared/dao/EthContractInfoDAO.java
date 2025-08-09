@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.beans.ETHContractInfo;
+import com.monolith.tokenmint.entities.ETHContractInfo;
 import com.monolith.tokenmint.repository.ETHContractInfoRepository;
 
 

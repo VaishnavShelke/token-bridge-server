@@ -1,11 +1,11 @@
 package com.monolith.tokenbank.helper;
 
 
-import com.monolith.tokenbank.beans.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCreds;
 import com.monolith.tokenbank.dto.AddGameItemRequest;
 import com.monolith.tokenbank.dto.TokenBankCreateUserRequest;
-import com.monolith.tokenmint.beans.GameInfo;
-import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.entities.GameInfo;
+import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.beans.ItemStatus;
 
 public class TokenBankPojoHelper {

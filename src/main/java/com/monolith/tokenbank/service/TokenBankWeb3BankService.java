@@ -3,7 +3,7 @@ package com.monolith.tokenbank.service;
 import com.monolith.shared.dao.EthContractInfoDAO;
 import com.monolith.tokenbank.dto.AddEthContractRequest;
 import com.monolith.tokenbank.dto.AddEthContractResponse;
-import com.monolith.tokenmint.beans.ETHContractInfo;
+import com.monolith.tokenmint.entities.ETHContractInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
