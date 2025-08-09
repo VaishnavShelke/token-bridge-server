@@ -6,7 +6,7 @@ import com.monolith.tokenbank.dto.OnboardGameResponse;
 import com.monolith.tokenbank.helper.GameInfoHelper;
 import com.monolith.tokenbank.helper.TokenBankConstants;
 import com.monolith.tokenbank.helper.TokenBankUserCredsHelper;
-import com.monolith.tokenmint.beans.GameInfo;
+import com.monolith.tokenmint.entities.GameInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

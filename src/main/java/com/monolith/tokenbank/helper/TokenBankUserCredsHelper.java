@@ -1,7 +1,7 @@
 package com.monolith.tokenbank.helper;
 
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenbank.beans.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCreds;
 import com.monolith.tokenbank.dao.TokenBankUserCredsDAO;
 import com.monolith.tokenbank.dto.TokenBankCreateUserRequest;
 import com.monolith.tokenbank.dto.TokenBankCreateUserResponse;

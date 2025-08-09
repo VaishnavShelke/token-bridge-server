@@ -2,7 +2,7 @@ package com.monolith.tokenmint.create.dto;
 
 import java.util.List;
 
-import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.beans.PlayerInfo;
 
 import lombok.Data;

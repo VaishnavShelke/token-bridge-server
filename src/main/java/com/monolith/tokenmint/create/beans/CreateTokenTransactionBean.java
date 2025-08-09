@@ -1,11 +1,11 @@
 package com.monolith.tokenmint.create.beans;
 
-import com.monolith.tokenmint.beans.ETHContractInfo;
-import com.monolith.tokenmint.beans.GameInfo;
-import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.entities.ETHContractInfo;
+import com.monolith.tokenmint.entities.GameInfo;
+import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.beans.OnChainTxnInfo;
 import com.monolith.tokenmint.beans.PlayerInfo;
-import com.monolith.tokenmint.beans.ProviderInfo;
+import com.monolith.tokenmint.entities.ProviderInfo;
 
 import lombok.Data;
 

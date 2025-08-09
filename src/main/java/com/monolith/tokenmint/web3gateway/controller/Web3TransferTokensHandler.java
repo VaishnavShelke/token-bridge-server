@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service;
 
 import com.monolith.shared.dao.GameItemsOnChainInfoDAO;
 import com.monolith.shared.dao.OperatorInfoDAO;
-import com.monolith.shared.utils.Utility;
-import com.monolith.tokenmint.beans.ETHContractInfo;
-import com.monolith.tokenmint.beans.GameItemsOnChainInfoBean;
-import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.entities.ETHContractInfo;
+import com.monolith.tokenmint.entities.GameItemsOnChainInfoBean;
+import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.beans.OnChainTxnInfo;
-import com.monolith.tokenmint.beans.OperatorInfoBean;
+import com.monolith.tokenmint.entities.OperatorInfoBean;
 import com.monolith.tokenmint.create.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.create.dto.Web3ContractArguments;
 import com.monolith.tokenmint.create.dto.Web3GtwTransferTokenRequest;

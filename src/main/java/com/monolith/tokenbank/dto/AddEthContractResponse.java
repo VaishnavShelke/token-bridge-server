@@ -1,6 +1,6 @@
 package com.monolith.tokenbank.dto;
 
-import com.monolith.tokenmint.beans.ETHContractInfo;
+import com.monolith.tokenmint.entities.ETHContractInfo;
 import lombok.Data;
 
 @Data

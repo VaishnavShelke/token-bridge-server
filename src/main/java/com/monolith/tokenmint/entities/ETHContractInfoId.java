@@ -1,4 +1,4 @@
-package com.monolith.tokenmint.beans;
+package com.monolith.tokenmint.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

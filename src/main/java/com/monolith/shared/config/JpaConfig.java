@@ -43,9 +43,8 @@ public class JpaConfig {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan(
-            "com.monolith.tokenmint.beans",
             "com.monolith.tokenmint.entities",
-            "com.monolith.tokenbank.beans"
+            "com.monolith.tokenbank.entities"
         );
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

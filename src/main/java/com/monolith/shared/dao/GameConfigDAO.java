@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monolith.shared.utils.GameServerConstants.GameServerEndpoint;
-import com.monolith.tokenmint.beans.GameConfigInfo;
+import com.monolith.tokenmint.entities.GameConfigInfo;
 import com.monolith.tokenmint.repository.GameConfigRepository;
 
 @Service
