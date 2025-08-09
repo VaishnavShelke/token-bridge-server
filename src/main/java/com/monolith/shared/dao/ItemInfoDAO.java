@@ -5,12 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.monolith.tokenmint.beans.ItemInfoBean;
+import com.monolith.tokenmint.repository.ItemInfoRepository;
 
 @Service
 public class ItemInfoDAO {
@@ -18,61 +16,39 @@ public class ItemInfoDAO {
     private static final Logger logger = LoggerFactory.getLogger(ItemInfoDAO.class);
 
     @Autowired
-    @Qualifier("tokenmintjdbctemplate")
-    JdbcTemplate globalJdbcTemplate;
+    private ItemInfoRepository itemInfoRepository;
 
     public ItemInfoBean getItemInfoFromItemIdForGame(String gameId, String itemId) {
         try {
-            String query = "SELECT * FROM game_items WHERE game_id=? AND item_id=?";
-            List<ItemInfoBean> itemInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ItemInfoBean>(ItemInfoBean.class), gameId, itemId);
-            if (itemInfoList == null || itemInfoList.size() == 0) {
-                return null;
-            } else {
-                return itemInfoList.get(0);
-            }
+            return itemInfoRepository.findByGameIdAndItemId(gameId, itemId).orElse(null);
         } catch (Exception e) {
             logger.error("Error While fetching ItemInfo for game {} and item id {} error :: {}", gameId, itemId, e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public List<ItemInfoBean> getAllItemsForGame(String gameId) {
         try {
-            String query = "SELECT * FROM game_items WHERE game_id=?";
-            List<ItemInfoBean> itemInfoList = globalJdbcTemplate.query(query, new BeanPropertyRowMapper<ItemInfoBean>(ItemInfoBean.class), gameId);
-            return itemInfoList;
+            return itemInfoRepository.findByGameId(gameId);
         } catch (Exception e) {
             logger.error("Error while fetching all items for game {} error :: {}", gameId, e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public void saveGameItem(ItemInfoBean itemInfo) {
-
-        String query = "INSERT INTO game_items (game_id, item_id, contract_item_id, item_category, item_title, item_description, item_img_url, item_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        int rowsAffected = globalJdbcTemplate.update(query,
-                itemInfo.getGameId(),
-                itemInfo.getItemId(),
-                itemInfo.getContractItemId(),
-                itemInfo.getItemCategory(),
-                itemInfo.getItemTitle(),
-                itemInfo.getItemDescription(),
-                itemInfo.getItemImgUrl(),
-                itemInfo.getItemStatus() != null ? itemInfo.getItemStatus().name() : "ALIVE"
-        );
-
-        if (rowsAffected > 0) {
+        try {
+            itemInfoRepository.save(itemInfo);
             logger.info("Successfully saved game item: {} for game: {}", itemInfo.getItemId(), itemInfo.getGameId());
-        } else {
-            logger.warn("Failed to save game item: {} for game: {}", itemInfo.getItemId(), itemInfo.getGameId());
+        } catch (Exception e) {
+            logger.error("Failed to save game item: {} for game: {} :: {}", itemInfo.getItemId(), itemInfo.getGameId(), e.getMessage());
             throw new RuntimeException("Failed to save game item");
         }
     }
 
     public Integer getMaxContractItemIdForGame(String gameId) {
         try {
-            String query = "SELECT MAX(contract_item_id) FROM game_items WHERE game_id=?";
-            Integer maxContractItemId = globalJdbcTemplate.queryForObject(query, Integer.class, gameId);
+            Integer maxContractItemId = itemInfoRepository.findMaxContractItemIdByGameId(gameId);
             return maxContractItemId != null ? maxContractItemId : 0;
         } catch (Exception e) {
             logger.error("Error while fetching max contract_item_id for game {} error :: {}", gameId, e.getMessage());
@@ -90,8 +66,7 @@ public class ItemInfoDAO {
     public String getNextIncrementalItemId(String gameId) {
         try {
             // Query to get the highest numeric item_id for the given game
-            String query = "SELECT MAX(CAST(item_id AS UNSIGNED)) FROM game_items WHERE game_id=? AND item_id REGEXP '^[0-9]{5}$'";
-            Integer maxItemId = globalJdbcTemplate.queryForObject(query, Integer.class, gameId);
+            Integer maxItemId = itemInfoRepository.findMaxNumericItemIdByGameId(gameId);
             
             // If no items exist or maxItemId is null, start from 1
             int nextItemId = (maxItemId != null) ? maxItemId + 1 : 1;
@@ -123,8 +98,7 @@ public class ItemInfoDAO {
      */
     public boolean updateItemStatusToDead(String gameId, String itemId) {
         try {
-            String query = "UPDATE game_items SET item_status = 'DEAD' WHERE game_id = ? AND item_id = ?";
-            int rowsAffected = globalJdbcTemplate.update(query, gameId, itemId);
+            int rowsAffected = itemInfoRepository.updateItemStatus(gameId, itemId, com.monolith.tokenmint.beans.ItemStatus.DEAD);
             
             if (rowsAffected > 0) {
                 logger.info("Successfully updated item status to DEAD for item: {} in game: {}", itemId, gameId);
