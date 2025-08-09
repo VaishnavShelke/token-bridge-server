@@ -26,7 +26,7 @@ import java.util.Properties;
     entityManagerFactoryRef = "entityManagerFactory",
     transactionManagerRef = "transactionManager"
 )
-// This is a Jpa Config Class
+// This is a Jpa Config Class | Which has the config
 public class JpaConfig {
 
     @Primary
