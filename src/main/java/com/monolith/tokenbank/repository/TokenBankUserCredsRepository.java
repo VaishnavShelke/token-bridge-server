@@ -5,16 +5,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.monolith.tokenbank.entities.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCredsEntity;
 import jakarta.transaction.Transactional;
 
 @Repository
-public interface TokenBankUserCredsRepository extends JpaRepository<TokenBankUserCreds, String> {
+public interface TokenBankUserCredsRepository extends JpaRepository<TokenBankUserCredsEntity, String> {
     
     boolean existsByUsername(String username);
     
     @Modifying
     @Transactional
-    @Query("UPDATE TokenBankUserCreds t SET t.gameId = :gameId, t.userRole = :userRole WHERE t.username = :username")
+    @Query("UPDATE TokenBankUserCredsEntity t SET t.gameId = :gameId, t.userRole = :userRole WHERE t.username = :username")
     int updateGameIdAndUserRole(@Param("username") String username, @Param("gameId") String gameId, @Param("userRole") String userRole);
 }

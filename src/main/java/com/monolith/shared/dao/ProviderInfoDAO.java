@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.entities.ProviderInfo;
+import com.monolith.tokenmint.entities.ChainProviderInfoEntity;
 import com.monolith.tokenmint.repository.ProviderInfoRepository;
 
 @Service
@@ -16,13 +16,13 @@ public class ProviderInfoDAO {
 	@Autowired
 	private ProviderInfoRepository providerInfoRepository;
 	
-	public ProviderInfo getProviderInfo(String providerId) {
+	public ChainProviderInfoEntity getProviderInfo(String providerId) {
 		try {
-			ProviderInfo providerInfo = providerInfoRepository.findById(providerId).orElse(null);
-			if(providerInfo == null) {
+			ChainProviderInfoEntity chainProviderInfoEntity = providerInfoRepository.findById(providerId).orElse(null);
+			if(chainProviderInfoEntity == null) {
 				logger.error("Provider Info not present for provider Id {}",providerId);
 			}
-			return providerInfo;
+			return chainProviderInfoEntity;
 		} catch (Exception e) {
 			logger.error("Error while fetching provider info for provider Id {} :: {}", providerId, e.getMessage());
 			return null;

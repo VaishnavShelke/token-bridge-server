@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "game_items")
-public class ItemInfoBean {
+public class GameItemsEntity {
 	
 	@Id
 	@Column(name = "item_id")

@@ -1,13 +1,13 @@
 package com.monolith.tokenmint.repository;
 
+import com.monolith.tokenmint.entities.ConfigResourceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.monolith.tokenmint.entities.ConfigResource;
-import com.monolith.tokenmint.entities.ConfigResourceId;
+import com.monolith.tokenmint.entities.ConfigResourceEntityId;
 import java.util.Optional;
 
 @Repository
-public interface ConfigResourceRepository extends JpaRepository<ConfigResource, ConfigResourceId> {
+public interface ConfigResourceRepository extends JpaRepository<ConfigResourceEntity, ConfigResourceEntityId> {
     
-    Optional<ConfigResource> findByGroupNameAndName(String groupName, String name);
+    Optional<ConfigResourceEntity> findByGroupNameAndName(String groupName, String name);
 }

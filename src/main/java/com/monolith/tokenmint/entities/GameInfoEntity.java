@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "game_info")
-public class GameInfo {
+public class GameInfoEntity {
 
 	@Id
 	@Column(name = "game_id")

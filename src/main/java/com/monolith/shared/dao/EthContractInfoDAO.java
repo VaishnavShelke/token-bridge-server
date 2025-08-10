@@ -1,11 +1,11 @@
 package com.monolith.shared.dao;
 
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.entities.ETHContractInfo;
 import com.monolith.tokenmint.repository.ETHContractInfoRepository;
 
 
@@ -18,7 +18,7 @@ public class EthContractInfoDAO {
 	private ETHContractInfoRepository ethContractInfoRepository;
 	
 
-	public ETHContractInfo getEthContractInfoForGame(String gameId, String ethContractId) {
+	public ETHContractInfoEntity getEthContractInfoForGame(String gameId, String ethContractId) {
 		try {
 			return ethContractInfoRepository.findByGameIdAndEthContractId(gameId, ethContractId).orElse(null);
 		}catch (Exception e) {
@@ -27,15 +27,15 @@ public class EthContractInfoDAO {
 		}
 	}
 
-	public boolean insertEthContractInfo(ETHContractInfo ethContractInfo) {
+	public boolean insertEthContractInfo(ETHContractInfoEntity ethContractInfoEntity) {
 		try {
-			ethContractInfoRepository.save(ethContractInfo);
+			ethContractInfoRepository.save(ethContractInfoEntity);
 			logger.info("Successfully saved ETH contract info for game: {} with contract ID: {}", 
-				ethContractInfo.getGameId(), ethContractInfo.getEthContractId());
+				ethContractInfoEntity.getGameId(), ethContractInfoEntity.getEthContractId());
 			return true;
 		} catch (Exception e) {
 			logger.error("Error while saving ETH contract info for game: {} with contract ID: {} - Error: {}", 
-				ethContractInfo.getGameId(), ethContractInfo.getEthContractId(), e.getMessage(), e);
+				ethContractInfoEntity.getGameId(), ethContractInfoEntity.getEthContractId(), e.getMessage(), e);
 			return false;
 		}
 	}

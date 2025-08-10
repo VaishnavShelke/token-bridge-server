@@ -2,7 +2,7 @@ package com.monolith.tokenmint.dto;
 
 import java.util.List;
 
-import com.monolith.tokenmint.entities.ItemInfoBean;
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import com.monolith.tokenmint.beans.PlayerInfo;
 
 import lombok.Data;
@@ -12,7 +12,7 @@ public class CreateTokenRequest extends CommonTransDTOFields{
 	/*
 	 * gameItemIds == Item info for game
 	 */
-	private ItemInfoBean gameItemInfo;
+	private GameItemsEntity gameItemInfo;
 	
 	/*
 	 * userGameId == uniqueId for user identification

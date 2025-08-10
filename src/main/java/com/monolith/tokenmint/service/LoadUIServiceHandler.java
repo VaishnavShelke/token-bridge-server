@@ -2,6 +2,8 @@ package com.monolith.tokenmint.service;
 
 import java.util.ArrayList;
 
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,7 @@ import com.monolith.shared.redis.RedisClientFactory;
 import com.monolith.shared.utils.Constants;
 import com.monolith.shared.utils.TokenMintConstants;
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenmint.entities.ETHContractInfo;
-import com.monolith.tokenmint.entities.GameInfo;
-import com.monolith.tokenmint.entities.ItemInfoBean;
+import com.monolith.tokenmint.entities.GameInfoEntity;
 import com.monolith.tokenmint.beans.PlayerInfo;
 import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.beans.TokenMintTransactionInfo;
@@ -91,9 +91,9 @@ public class LoadUIServiceHandler {
 		PlayerInfo playerInfo = new PlayerInfo();
 		PlayerInfo plinfo = createTokenTransactionBean.getPalyerInfo();
 		
-		GameInfo gminfo = createTokenTransactionBean.getGameInfo();
-		ItemInfoBean itmbean = createTokenTransactionBean.getItemInfoBean();
-		ETHContractInfo ethinfo = createTokenTransactionBean.getEthContractInfo();
+		GameInfoEntity gminfo = createTokenTransactionBean.getGameInfoEntity();
+		GameItemsEntity itmbean = createTokenTransactionBean.getGameItemsEntity();
+		ETHContractInfoEntity ethinfo = createTokenTransactionBean.getEthContractInfoEntity();
 		
 		playerInfo.setPlayerId(plinfo.getPlayerId());
 		playerInfo.setPlayerName(plinfo.getPlayerName());
@@ -109,7 +109,7 @@ public class LoadUIServiceHandler {
 		tokenMintTransactionInfo.setVerifyAddressUrl(verifyAddressUrl.concat(createTokenTransactionBean.getTokenMintTransactionId()));
 		tokenMintTransactionInfo.setGameLandingPage(createTokenTransactionBean.getGameLandingPage());
 		
-		ItemInfoBean itmInfoBean = new ItemInfoBean();
+		GameItemsEntity itmInfoBean = new GameItemsEntity();
 		itmInfoBean.setItemId(itmbean.getItemId());
 		itmInfoBean.setItemCategory(itmbean.getItemCategory());
 		itmInfoBean.setItemImgUrl(itmbean.getItemImgUrl());
@@ -117,13 +117,13 @@ public class LoadUIServiceHandler {
 		itmInfoBean.setItemTitle(itmbean.getItemTitle());
 		
 		
-		ETHContractInfo ethContractInfo = new ETHContractInfo();
-		ethContractInfo.setChain(ethinfo.getChain());
-		ethContractInfo.setContractName(ethinfo.getContractName());
-		ethContractInfo.setContractAddress(ethinfo.getContractAddress());
-		ethContractInfo.setChainId(ethinfo.getChainId());
-		ethContractInfo.setEtherscanContractUrl(ethinfo.getEtherscanContractUrl());
-		ethContractInfo.setChainCurrency(ethinfo.getChainCurrency());
+		ETHContractInfoEntity ethContractInfoEntity = new ETHContractInfoEntity();
+		ethContractInfoEntity.setChain(ethinfo.getChain());
+		ethContractInfoEntity.setContractName(ethinfo.getContractName());
+		ethContractInfoEntity.setContractAddress(ethinfo.getContractAddress());
+		ethContractInfoEntity.setChainId(ethinfo.getChainId());
+		ethContractInfoEntity.setEtherscanContractUrl(ethinfo.getEtherscanContractUrl());
+		ethContractInfoEntity.setChainCurrency(ethinfo.getChainCurrency());
 
 		
 //		TokenMintUserInfo fetchedTokenMintUserInfo = fetchTokenMintUser.getTokenMintUserInfoByGameIdPlayerId(gminfo.getGameId(),plinfo.getPlayerId());
@@ -133,7 +133,7 @@ public class LoadUIServiceHandler {
 //		tokenMintUserInfo.setTokenMintUserName(fetchedTokenMintUserInfo.getTokenMintUserName());
 //		tokenMintUserInfo.setTokenMintUserProfileRedirectionURL(fetchedTokenMintUserInfo.getTokenMintUserProfileRedirectionURL());
 		
-		loadUIDTOResponse.setContractInfo(ethContractInfo);
+		loadUIDTOResponse.setContractInfo(ethContractInfoEntity);
 		loadUIDTOResponse.setPlayerInfo(playerInfo);
 		loadUIDTOResponse.setTokenMintUserInfo(null);
 		loadUIDTOResponse.setTokenMintTransactionInfo(tokenMintTransactionInfo);

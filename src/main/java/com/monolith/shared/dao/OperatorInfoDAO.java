@@ -1,11 +1,11 @@
 package com.monolith.shared.dao;
 
+import com.monolith.tokenmint.entities.OperatorInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.entities.OperatorInfoBean;
 import com.monolith.tokenmint.repository.OperatorInfoRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class OperatorInfoDAO {
 	@Autowired
 	private OperatorInfoRepository operatorInfoRepository;
 	
-	public OperatorInfoBean getOperatorInfo(String gameId,String operatorId) {
+	public OperatorInfoEntity getOperatorInfo(String gameId, String operatorId) {
 		try {
 			return operatorInfoRepository.findById(operatorId).orElse(null);
 		}catch (Exception e) {

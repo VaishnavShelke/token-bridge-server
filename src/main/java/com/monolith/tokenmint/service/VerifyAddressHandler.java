@@ -109,7 +109,7 @@ public class VerifyAddressHandler {
 				logger.error("Saving to cache failed :: CreateTokenTrnasactionBeanCouldNotBeSaved...");
 			}
 		}
-		createTokenTransactionBean.getEthContractInfo().getChainId();
+		createTokenTransactionBean.getEthContractInfoEntity().getChainId();
 		verifyAddressResponse.setAddressEtherScanUrl("https://sepolia.etherscan.io/address/"+verifyAddressResponse.getAddress());
 		return verifyAddressResponse;
 	}

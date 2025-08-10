@@ -1,10 +1,10 @@
 package com.monolith.tokenmint.repository;
 
+import com.monolith.tokenmint.entities.ChainProviderInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.monolith.tokenmint.entities.ProviderInfo;
 
 @Repository
-public interface ProviderInfoRepository extends JpaRepository<ProviderInfo, String> {
+public interface ProviderInfoRepository extends JpaRepository<ChainProviderInfoEntity, String> {
     // providerId is the primary key, so findById can be used
 }

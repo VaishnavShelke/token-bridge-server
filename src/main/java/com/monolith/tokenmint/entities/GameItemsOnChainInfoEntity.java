@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "game_items_on_chain_info")
-@IdClass(GameItemsOnChainInfoId.class)
-public class GameItemsOnChainInfoBean {
+@IdClass(GameItemsOnChainInfoEntityId.class)
+public class GameItemsOnChainInfoEntity {
 	
 	@Id
 	@Column(name = "game_id")

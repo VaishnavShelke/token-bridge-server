@@ -1,8 +1,8 @@
 package com.monolith.tokenmint.dto;
 
 import com.monolith.tokenmint.beans.CommonDTOFields;
-import com.monolith.tokenmint.entities.ETHContractInfo;
-import com.monolith.tokenmint.entities.ItemInfoBean;
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import com.monolith.tokenmint.beans.PlayerInfo;
 import com.monolith.tokenmint.beans.TokenMintTransactionInfo;
 import com.monolith.tokentrade.TokenMintUserInfo;
@@ -16,8 +16,8 @@ public class LoadUIDTOResponse extends CommonDTOFields{
 	private PlayerInfo playerInfo;
 	private TokenMintTransactionInfo tokenMintTransactionInfo;
 	private TokenMintUserInfo tokenMintUserInfo;
-	private ItemInfoBean itemInfo;
-	private ETHContractInfo contractInfo;
+	private GameItemsEntity itemInfo;
+	private ETHContractInfoEntity contractInfo;
 	
 	public LoadUIDTOResponse setStatusCodeDesc(String statusCode,String statusDesc) {
 		setStatusCode(statusCode);

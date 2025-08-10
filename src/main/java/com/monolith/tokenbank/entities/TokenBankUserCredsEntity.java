@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "tokenbank_user_creds")
-public class TokenBankUserCreds {
+public class TokenBankUserCredsEntity {
     
     @Id
     @Column(name = "username")

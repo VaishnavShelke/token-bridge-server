@@ -3,17 +3,17 @@ package com.monolith.tokenmint.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class GameItemsOnChainInfoId implements Serializable {
+public class GameConfigEntityId implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String gameId;
-    private String itemId;
+    private String configType;
     
-    public GameItemsOnChainInfoId() {}
+    public GameConfigEntityId() {}
     
-    public GameItemsOnChainInfoId(String gameId, String itemId) {
+    public GameConfigEntityId(String gameId, String configType) {
         this.gameId = gameId;
-        this.itemId = itemId;
+        this.configType = configType;
     }
     
     public String getGameId() {
@@ -24,24 +24,24 @@ public class GameItemsOnChainInfoId implements Serializable {
         this.gameId = gameId;
     }
     
-    public String getItemId() {
-        return itemId;
+    public String getConfigType() {
+        return configType;
     }
     
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setConfigType(String configType) {
+        this.configType = configType;
     }
     
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GameItemsOnChainInfoId that = (GameItemsOnChainInfoId) o;
-        return Objects.equals(gameId, that.gameId) && Objects.equals(itemId, that.itemId);
+        GameConfigEntityId that = (GameConfigEntityId) o;
+        return Objects.equals(gameId, that.gameId) && Objects.equals(configType, that.configType);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(gameId, itemId);
+        return Objects.hash(gameId, configType);
     }
 }
