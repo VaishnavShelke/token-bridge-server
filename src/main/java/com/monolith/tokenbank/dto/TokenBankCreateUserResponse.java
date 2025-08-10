@@ -1,7 +1,5 @@
 package com.monolith.tokenbank.dto;
 
-import com.monolith.tokenmint.create.dto.CommonTransDTOFields;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

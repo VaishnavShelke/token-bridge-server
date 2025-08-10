@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import com.monolith.tokenmint.create.controller.CreateTokenController;
-
 public class RedisClient<Object> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);

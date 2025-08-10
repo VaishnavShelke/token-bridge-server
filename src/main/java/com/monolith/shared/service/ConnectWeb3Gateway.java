@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.monolith.shared.utils.GameServerConstants;
 import com.monolith.shared.utils.TokenMintConstants;
 import com.monolith.shared.utils.Utility;
 import com.monolith.shared.utils.Web3GatewayConstants;
-import com.monolith.tokenmint.create.beans.CreateTokenTransactionBean;
-import com.monolith.tokenmint.create.dto.Web3GtwTransferTokenRequest;
-import com.monolith.tokenmint.ui.dto.VerifyAddressRequest;
-import com.monolith.tokenmint.ui.dto.VerifyAddressResponse;
+import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
+import com.monolith.tokenmint.dto.Web3GtwTransferTokenRequest;
+import com.monolith.tokenmint.dto.VerifyAddressRequest;
+import com.monolith.tokenmint.dto.VerifyAddressResponse;
 
 @Service
 public class ConnectWeb3Gateway {
