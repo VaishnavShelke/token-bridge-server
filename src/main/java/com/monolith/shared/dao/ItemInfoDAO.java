@@ -2,12 +2,12 @@ package com.monolith.shared.dao;
 
 import java.util.List;
 
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.entities.ItemInfoBean;
 import com.monolith.tokenmint.repository.ItemInfoRepository;
 
 @Service
@@ -18,7 +18,7 @@ public class ItemInfoDAO {
     @Autowired
     private ItemInfoRepository itemInfoRepository;
 
-    public ItemInfoBean getItemInfoFromItemIdForGame(String gameId, String itemId) {
+    public GameItemsEntity getItemInfoFromItemIdForGame(String gameId, String itemId) {
         try {
             return itemInfoRepository.findByGameIdAndItemId(gameId, itemId).orElse(null);
         } catch (Exception e) {
@@ -27,7 +27,7 @@ public class ItemInfoDAO {
         }
     }
 
-    public List<ItemInfoBean> getAllItemsForGame(String gameId) {
+    public List<GameItemsEntity> getAllItemsForGame(String gameId) {
         try {
             return itemInfoRepository.findByGameId(gameId);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class ItemInfoDAO {
         }
     }
 
-    public void saveGameItem(ItemInfoBean itemInfo) {
+    public void saveGameItem(GameItemsEntity itemInfo) {
         try {
             itemInfoRepository.save(itemInfo);
             logger.info("Successfully saved game item: {} for game: {}", itemInfo.getItemId(), itemInfo.getGameId());

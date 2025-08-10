@@ -3,7 +3,7 @@ package com.monolith.tokenbank.service;
 import com.monolith.shared.dao.EthContractInfoDAO;
 import com.monolith.tokenbank.dto.AddEthContractRequest;
 import com.monolith.tokenbank.dto.AddEthContractResponse;
-import com.monolith.tokenmint.entities.ETHContractInfo;
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,13 @@ public class TokenBankWeb3BankService {
 
         try {
             // Create mock ETH contract info
-            ETHContractInfo mockEthContractInfo = createMockEthContractInfo(request.getGameId());
+            ETHContractInfoEntity mockEthContractInfoEntity = createMockEthContractInfo(request.getGameId());
 
             // Insert into database
-            boolean success = ethContractInfoDAO.insertEthContractInfo(mockEthContractInfo);
+            boolean success = ethContractInfoDAO.insertEthContractInfo(mockEthContractInfoEntity);
             if (success) {
                 logger.info("{} :: Successfully created mock ETH contract info for game: {}", TOKEN_BANK_PREPEND, request.getGameId());
-                return new AddEthContractResponse(STATUS_CODE_SUCCESS, "Mock ETH contract info created successfully", mockEthContractInfo);
+                return new AddEthContractResponse(STATUS_CODE_SUCCESS, "Mock ETH contract info created successfully", mockEthContractInfoEntity);
             } else {
                 logger.error("{} :: Failed to insert mock ETH contract info for game: {}", TOKEN_BANK_PREPEND, request.getGameId());
                 return new AddEthContractResponse(STATUS_CODE_INTERNAL_ERROR, "Failed to create mock ETH contract info");
@@ -46,8 +46,8 @@ public class TokenBankWeb3BankService {
         }
     }
 
-    private ETHContractInfo createMockEthContractInfo(String gameId) {
-        ETHContractInfo mockInfo = new ETHContractInfo();
+    private ETHContractInfoEntity createMockEthContractInfo(String gameId) {
+        ETHContractInfoEntity mockInfo = new ETHContractInfoEntity();
         
         String contractId = "mock-contract-" + UUID.randomUUID().toString().substring(0, 8);
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

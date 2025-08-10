@@ -12,7 +12,7 @@ import com.monolith.shared.dao.GameConfigDAO;
 import com.monolith.shared.dao.GameItemsOnChainInfoDAO;
 import com.monolith.shared.dao.ItemInfoDAO;
 import com.monolith.shared.dao.OperatorInfoDAO;
-import com.monolith.tokenmint.create.dao.GameInfoDAO;
+import com.monolith.tokenmint.dao.GameInfoDAO;
 
 @SpringBootTest
 @ContextConfiguration(classes = MonolithApplication.class)

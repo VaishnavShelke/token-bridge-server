@@ -1,7 +1,7 @@
 package com.monolith.tokenbank.helper;
 
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenbank.entities.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCredsEntity;
 import com.monolith.tokenbank.dao.TokenBankUserCredsDAO;
 import com.monolith.tokenbank.dto.TokenBankCreateUserRequest;
 import com.monolith.tokenbank.dto.TokenBankCreateUserResponse;
@@ -27,7 +27,7 @@ public class TokenBankUserCredsHelper {
             response.setUsername(username);
             return response;
         }
-        TokenBankUserCreds userCreds = new TokenBankUserCreds();
+        TokenBankUserCredsEntity userCreds = new TokenBankUserCredsEntity();
         TokenBankPojoHelper.setTokenBankUserCredsFromTokenBankCreateUserRequest(userCreds,createUserRequest);
         tokenBankUserCredsDAO.saveTokenBankUserCreds(userCreds);
         TokenBankCreateUserResponse response = new TokenBankCreateUserResponse(TokenBankConstants.STATUS_CODE_SUCCESS, TokenBankConstants.MESSAGE_SUCCESS);
@@ -37,7 +37,7 @@ public class TokenBankUserCredsHelper {
 
     public String validateUserHasAccessToGameAndReturnGameId(String username, String requestedGameId) {
 
-        TokenBankUserCreds userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
+        TokenBankUserCredsEntity userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
         if (userCreds == null) {
             logger.error("{}User not found: {}", TOKEN_BANK_PREPEND, username);
             throw new IllegalArgumentException(TokenBankConstants.MESSAGE_USER_NOT_FOUND);
@@ -72,7 +72,7 @@ public class TokenBankUserCredsHelper {
 
     public void validateUserIsAdminForGame(String username, String gameId) {
         try {
-            TokenBankUserCreds userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
+            TokenBankUserCredsEntity userCreds = tokenBankUserCredsDAO.getUserByUsername(username);
             if (userCreds == null) {
                 logger.error("{}User not found: {}", TOKEN_BANK_PREPEND, username);
                 throw new IllegalArgumentException(TokenBankConstants.MESSAGE_USER_NOT_FOUND);

@@ -50,14 +50,5 @@ public class TokenBankUtil {
         return "ITEM_" + timestampSuffix + randomSuffix.toString();
     }
 
-    /**
-     * Generates an incremental item ID with the given number
-     * Format: ITEM_XXX where XXX is a zero-padded 3-digit number
-     * 
-     * @param itemNumber The sequential number for the item
-     * @return Formatted item ID (e.g., "ITEM_001", "ITEM_002", etc.)
-     */
-    public static String generateIncrementalItemId(int itemNumber) {
-        return String.format("ITEM_%03d", itemNumber);
-    }
+
 }

@@ -1,13 +1,13 @@
 package com.monolith.shared.dao;
 
+import com.monolith.tokenmint.entities.TokenMintTransactionEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenmint.create.beans.CreateTokenTransactionBean;
-import com.monolith.tokenmint.entities.TokenMintTransaction;
+import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.repository.TokenMintTransactionRepository;
 
 @Service
@@ -31,7 +31,7 @@ public class TokenMintTransactionDAO {
 
 	private boolean saveTxnToDb(String gameId, CreateTokenTransactionBean cttbean,String tablename) {
 		try {
-			TokenMintTransaction transaction = new TokenMintTransaction();
+			TokenMintTransactionEntity transaction = new TokenMintTransactionEntity();
 			transaction.setTokenMintTransactionId(cttbean.getTokenMintTransactionId());
 			transaction.setTransactionSummaryJson(Utility.getJsonFromObject(cttbean));
 			
@@ -61,7 +61,7 @@ public class TokenMintTransactionDAO {
 		try {
 			String transactionId = cttbean.getTokenMintTransactionId();
 			if (tokenMintTransactionRepository.existsById(transactionId)) {
-				TokenMintTransaction transaction = new TokenMintTransaction();
+				TokenMintTransactionEntity transaction = new TokenMintTransactionEntity();
 				transaction.setTokenMintTransactionId(transactionId);
 				transaction.setTransactionSummaryJson(Utility.getJsonFromObject(cttbean));
 				
