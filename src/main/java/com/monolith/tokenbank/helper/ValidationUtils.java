@@ -4,13 +4,8 @@ import com.monolith.shared.utils.Utility;
 import com.monolith.tokenbank.dto.AddGameItemRequest;
 import com.monolith.tokenbank.dto.OnBoardGameRequest;
 import com.monolith.tokenbank.dto.TokenBankCreateUserRequest;
-import com.monolith.tokenbank.dto.TokenBankCreateUserResponse;
 import com.monolith.tokenbank.dto.UnAliveItemRequest;
 import io.micrometer.common.util.StringUtils;
-import org.springframework.http.ResponseEntity;
-
-import static com.monolith.tokenbank.helper.TokenBankConstants.STATUS_CODE_VALIDATION_FAILED;
-import static com.monolith.tokenbank.helper.TokenBankConstants.TOKEN_BANK_PREPEND;
 
 /**
  * Utility class for validation operations
@@ -44,8 +39,8 @@ public class ValidationUtils {
     public static void validateOnBoardGameRequest(OnBoardGameRequest onBoardGameRequest) {
         if (onBoardGameRequest == null ||
                 Utility.isNullOrEmpty(onBoardGameRequest.getGameId()) ||
-                onBoardGameRequest.getGameInfo() == null ||
-                Utility.isNullOrEmpty(onBoardGameRequest.getGameInfo().getGameName())) {
+                onBoardGameRequest.getGameInfoEntity() == null ||
+                Utility.isNullOrEmpty(onBoardGameRequest.getGameInfoEntity().getGameName())) {
 
             throw new IllegalArgumentException("Game ID and game name are required");
         }

@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "tokenmint_transaction")
-public class TokenMintTransaction {
+public class TokenMintTransactionEntity {
     
     @Id
     @Column(name = "tokenmint_transaction_id")

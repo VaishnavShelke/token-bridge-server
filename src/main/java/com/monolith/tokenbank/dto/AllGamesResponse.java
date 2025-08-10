@@ -1,6 +1,6 @@
 package com.monolith.tokenbank.dto;
 
-import com.monolith.tokenmint.entities.GameInfo;
+import com.monolith.tokenmint.entities.GameInfoEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +13,5 @@ public class AllGamesResponse extends StandardResponseDto {
         super(statusCode, message);
     }
 
-    private List<GameInfo> games;
+    private List<GameInfoEntity> games;
 } 

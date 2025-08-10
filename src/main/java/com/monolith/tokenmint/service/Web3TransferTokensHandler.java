@@ -1,15 +1,15 @@
 package com.monolith.tokenmint.service;
 
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monolith.shared.dao.GameItemsOnChainInfoDAO;
 import com.monolith.shared.dao.OperatorInfoDAO;
-import com.monolith.tokenmint.entities.ETHContractInfo;
-import com.monolith.tokenmint.entities.GameItemsOnChainInfoBean;
-import com.monolith.tokenmint.entities.ItemInfoBean;
+import com.monolith.tokenmint.entities.GameItemsOnChainInfoEntity;
 import com.monolith.tokenmint.beans.OnChainTxnInfo;
-import com.monolith.tokenmint.entities.OperatorInfoBean;
+import com.monolith.tokenmint.entities.OperatorInfoEntity;
 import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.dto.Web3ContractArguments;
 import com.monolith.tokenmint.dto.Web3GtwTransferTokenRequest;
@@ -27,14 +27,14 @@ public class Web3TransferTokensHandler {
 		Web3GtwTransferTokenRequest  web3ttr = new Web3GtwTransferTokenRequest();
 		
 		
-		ETHContractInfo ethcontinfo = cttbean.getEthContractInfo();
+		ETHContractInfoEntity ethcontinfo = cttbean.getEthContractInfoEntity();
 		web3ttr.setContractABI(ethcontinfo.getContractAbi());
 		web3ttr.setContractAddress(ethcontinfo.getContractAddress());
 		web3ttr.setProviderId(ethcontinfo.getProviderId());
 		
-		ItemInfoBean iibean = cttbean.getItemInfoBean();
+		GameItemsEntity iibean = cttbean.getGameItemsEntity();
 		Web3ContractArguments web3Args = new Web3ContractArguments();
-		GameItemsOnChainInfoBean gameChainBean = gameItemsOnChainInfoDAO.getGameOnChainInfoById(cttbean.getGameId(),iibean.getItemId());
+		GameItemsOnChainInfoEntity gameChainBean = gameItemsOnChainInfoDAO.getGameOnChainInfoById(cttbean.getGameId(),iibean.getItemId());
 		web3Args.setFrom(gameChainBean.getTokenIssuerAddress());
 		web3Args.setTo(cttbean.getRecieptientAddress());
 		web3Args.setId(gameChainBean.getItemContractId());
@@ -46,9 +46,9 @@ public class Web3TransferTokensHandler {
 		web3ttr.setContractId(ethcontinfo.getEthContractId());
 		web3ttr.setContractName(ethcontinfo.getContractName());
 		
-		OperatorInfoBean operatorInfoBean = operatorInfoDAO.getOperatorInfo(cttbean.getGameId(), ethcontinfo.getOperatorId());
+		OperatorInfoEntity operatorInfoEntity = operatorInfoDAO.getOperatorInfo(cttbean.getGameId(), ethcontinfo.getOperatorId());
 		
-		web3ttr.setContractOperatorAddress(operatorInfoBean.getOperatorAddress());
+		web3ttr.setContractOperatorAddress(operatorInfoEntity.getOperatorAddress());
 		web3ttr.setTokenMintTransactionId(cttbean.getTokenMintTransactionId());
 		
 		OnChainTxnInfo octi = new OnChainTxnInfo();

@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "eth_contract_info")
-@IdClass(ETHContractInfoId.class)
-public class ETHContractInfo {
+@IdClass(ETHContractInfoEntityId.class)
+public class ETHContractInfoEntity {
 
 	@Id
 	@Column(name = "game_id")

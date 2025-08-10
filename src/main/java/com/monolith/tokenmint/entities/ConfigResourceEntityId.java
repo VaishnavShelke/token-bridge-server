@@ -3,15 +3,15 @@ package com.monolith.tokenmint.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ConfigResourceId implements Serializable {
+public class ConfigResourceEntityId implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String groupName;
     private String name;
     
-    public ConfigResourceId() {}
+    public ConfigResourceEntityId() {}
     
-    public ConfigResourceId(String groupName, String name) {
+    public ConfigResourceEntityId(String groupName, String name) {
         this.groupName = groupName;
         this.name = name;
     }
@@ -36,7 +36,7 @@ public class ConfigResourceId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ConfigResourceId that = (ConfigResourceId) o;
+        ConfigResourceEntityId that = (ConfigResourceEntityId) o;
         return Objects.equals(groupName, that.groupName) && Objects.equals(name, that.name);
     }
     

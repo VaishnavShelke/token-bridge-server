@@ -1,6 +1,6 @@
 package com.monolith.tokenbank.dao;
 
-import com.monolith.tokenbank.entities.TokenBankUserCreds;
+import com.monolith.tokenbank.entities.TokenBankUserCredsEntity;
 import com.monolith.tokenbank.repository.TokenBankUserCredsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class TokenBankUserCredsDAO {
         }
     }
 
-    public TokenBankUserCreds getUserByUsername(String username) {
+    public TokenBankUserCredsEntity getUserByUsername(String username) {
         try {
             return tokenBankUserCredsRepository.findById(username).orElse(null);
         } catch (Exception e) {
@@ -49,12 +49,12 @@ public class TokenBankUserCredsDAO {
         return false;
     }
 
-    public void saveTokenBankUserCreds(TokenBankUserCreds tokenBankUserCreds) {
+    public void saveTokenBankUserCreds(TokenBankUserCredsEntity tokenBankUserCredsEntity) {
         try {
-            tokenBankUserCredsRepository.save(tokenBankUserCreds);
-            logger.info("TokenBank :: Successfully saved user creds for gameId: {}, Username: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername());
+            tokenBankUserCredsRepository.save(tokenBankUserCredsEntity);
+            logger.info("TokenBank :: Successfully saved user creds for gameId: {}, Username: {}", tokenBankUserCredsEntity.getGameId(), tokenBankUserCredsEntity.getUsername());
         } catch (Exception e) {
-            logger.error("TokenBank :: Failed to save user creds for gameId: {}, Username: {} :: {}", tokenBankUserCreds.getGameId(), tokenBankUserCreds.getUsername(), e.getMessage());
+            logger.error("TokenBank :: Failed to save user creds for gameId: {}, Username: {} :: {}", tokenBankUserCredsEntity.getGameId(), tokenBankUserCredsEntity.getUsername(), e.getMessage());
             throw new RuntimeException("Failed to save user creds");
         }
     }

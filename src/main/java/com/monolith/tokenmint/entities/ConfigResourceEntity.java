@@ -12,10 +12,10 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "config_resource")
-@IdClass(ConfigResourceId.class)
-public class ConfigResource {
+@IdClass(ConfigResourceEntityId.class)
+public class ConfigResourceEntity {
 
-	private static final Logger logger = LoggerFactory.getLogger(ConfigResource.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConfigResourceEntity.class);
 	
 	@Id
 	@Column(name = "group_name")

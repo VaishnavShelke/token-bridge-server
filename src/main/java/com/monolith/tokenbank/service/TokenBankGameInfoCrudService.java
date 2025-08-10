@@ -6,7 +6,7 @@ import com.monolith.tokenbank.dto.OnboardGameResponse;
 import com.monolith.tokenbank.helper.GameInfoHelper;
 import com.monolith.tokenbank.helper.TokenBankConstants;
 import com.monolith.tokenbank.helper.TokenBankUserCredsHelper;
-import com.monolith.tokenmint.entities.GameInfo;
+import com.monolith.tokenmint.entities.GameInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +30,19 @@ public class TokenBankGameInfoCrudService {
     public OnboardGameResponse onboardGame(OnBoardGameRequest onBoardGameRequest) {
         String gameId = validateUserHasAccessToGameAndReturnGameId(onBoardGameRequest.getUsername(),onBoardGameRequest.getGameId());
         onBoardGameRequest.setGameId(gameId);
-        GameInfo gameInfo = gameInfoHelper.onBoardGame(onBoardGameRequest);
+        GameInfoEntity gameInfoEntity = gameInfoHelper.onBoardGame(onBoardGameRequest);
         logger.info("{}Successfully onboarded game: {} for user: {}", TOKEN_BANK_PREPEND, gameId, onBoardGameRequest.getUsername());
         OnboardGameResponse onboardGameResponse = new OnboardGameResponse(TokenBankConstants.STATUS_CODE_SUCCESS, TokenBankConstants.MESSAGE_GAME_ONBOARDED);
-        onboardGameResponse.setGameInfo(gameInfo);
+        onboardGameResponse.setGameInfoEntity(gameInfoEntity);
         return onboardGameResponse;
     }
 
     public OnboardGameResponse editGame(OnBoardGameRequest onBoardGameRequest) {
         String gameId = validateUserHasAccessToGameAndReturnGameId(onBoardGameRequest.getUsername(),onBoardGameRequest.getGameId());
-        GameInfo gameInfo = gameInfoHelper.editGame(onBoardGameRequest);
+        GameInfoEntity gameInfoEntity = gameInfoHelper.editGame(onBoardGameRequest);
         logger.info("{}Successfully edited game: {} for user: {}", TOKEN_BANK_PREPEND, gameId, onBoardGameRequest.getUsername());
         OnboardGameResponse onboardGameResponse = new OnboardGameResponse(TokenBankConstants.STATUS_CODE_SUCCESS, TokenBankConstants.MESSAGE_GAME_EDITED);
-        onboardGameResponse.setGameInfo(gameInfo);
+        onboardGameResponse.setGameInfoEntity(gameInfoEntity);
         return onboardGameResponse;
     }
 
@@ -56,7 +56,7 @@ public class TokenBankGameInfoCrudService {
 
     public AllGamesResponse getAllGames() {
         logger.info("{} :: Received request to get all games", TOKEN_BANK_PREPEND);
-        List<GameInfo> games = gameInfoHelper.getAllGames();
+        List<GameInfoEntity> games = gameInfoHelper.getAllGames();
         logger.info("{}Successfully retrieved {} games", TOKEN_BANK_PREPEND, games.size());
         AllGamesResponse response = new AllGamesResponse(TokenBankConstants.STATUS_CODE_SUCCESS, "Fetched All Games Successfully");
         response.setGames(games);

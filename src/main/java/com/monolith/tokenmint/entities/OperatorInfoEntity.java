@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "operator_info")
-public class OperatorInfoBean {
+public class OperatorInfoEntity {
 
 	@Id
 	@Column(name = "operator_id")

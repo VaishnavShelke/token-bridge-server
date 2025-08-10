@@ -1,11 +1,11 @@
 package com.monolith.tokenmint.dao;
 
+import com.monolith.tokenmint.entities.GameInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.monolith.tokenmint.entities.GameInfo;
 import com.monolith.tokenmint.repository.GameInfoRepository;
 
 @Service
@@ -17,14 +17,14 @@ public class GameInfoDAO {
     private GameInfoRepository gameInfoRepository;
 
 
-    public GameInfo getGameInfoByGameId(String gameId) {
+    public GameInfoEntity getGameInfoByGameId(String gameId) {
         return gameInfoRepository.findById(gameId).orElse(null);
     }
 
-    public void saveGameInfo(GameInfo gameInfo) {
+    public void saveGameInfo(GameInfoEntity gameInfoEntity) {
         try {
-            gameInfoRepository.save(gameInfo);
-            logger.info("Successfully saved game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
+            gameInfoRepository.save(gameInfoEntity);
+            logger.info("Successfully saved game info for gameId: {}, gameName: {}", gameInfoEntity.getGameId(), gameInfoEntity.getGameName());
         } catch (Exception e) {
             logger.error("Failed to save game info: {}", e.getMessage());
             throw new RuntimeException("Failed to Save The Game");
@@ -40,13 +40,13 @@ public class GameInfoDAO {
         }
     }
 
-    public void updateGameInfo(GameInfo gameInfo) {
+    public void updateGameInfo(GameInfoEntity gameInfoEntity) {
         try {
-            if (gameInfoRepository.existsById(gameInfo.getGameId())) {
-                gameInfoRepository.save(gameInfo);
-                logger.info("Successfully updated game info for gameId: {}, gameName: {}", gameInfo.getGameId(), gameInfo.getGameName());
+            if (gameInfoRepository.existsById(gameInfoEntity.getGameId())) {
+                gameInfoRepository.save(gameInfoEntity);
+                logger.info("Successfully updated game info for gameId: {}, gameName: {}", gameInfoEntity.getGameId(), gameInfoEntity.getGameName());
             } else {
-                logger.warn("Failed to update game info for gameId: {} - game not found", gameInfo.getGameId());
+                logger.warn("Failed to update game info for gameId: {} - game not found", gameInfoEntity.getGameId());
                 throw new RuntimeException("Failed to update game info - game not found");
             }
         } catch (Exception e) {
@@ -55,15 +55,15 @@ public class GameInfoDAO {
         }
     }
 
-    public java.util.List<GameInfo> getAllGames() {
+    public java.util.List<GameInfoEntity> getAllGames() {
         try {
-            java.util.List<GameInfo> gameInfoList = gameInfoRepository.findAll()
+            java.util.List<GameInfoEntity> gameInfoEntityList = gameInfoRepository.findAll()
                 .stream()
                 .filter(game -> !"DEFAULT_GAME".equals(game.getGameId()))
                 .sorted((g1, g2) -> g1.getGameId().compareTo(g2.getGameId()))
                 .collect(java.util.stream.Collectors.toList());
-            logger.info("Retrieved {} games from database", gameInfoList.size());
-            return gameInfoList;
+            logger.info("Retrieved {} games from database", gameInfoEntityList.size());
+            return gameInfoEntityList;
         } catch (Exception e) {
             logger.error("Error while fetching all games :: {}", e.getMessage());
             return null;

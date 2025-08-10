@@ -18,9 +18,9 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "game_config")
-@IdClass(GameConfigInfoId.class)
-public class GameConfigInfo {
-	private static final Logger logger = LoggerFactory.getLogger(GameConfigInfo.class);
+@IdClass(GameConfigEntityId.class)
+public class GameConfigEntity {
+	private static final Logger logger = LoggerFactory.getLogger(GameConfigEntity.class);
 
 	public static final String GAMESERVER_ENDPOINTS = "ENDPOINT";
 	

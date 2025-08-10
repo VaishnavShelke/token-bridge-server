@@ -4,6 +4,8 @@ package com.monolith.tokenmint.service;
 
 import java.util.Base64;
 
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
+import com.monolith.tokenmint.entities.GameInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,9 @@ import com.monolith.shared.dao.ItemInfoDAO;
 import com.monolith.shared.dao.ProviderInfoDAO;
 import com.monolith.shared.utils.TokenMintConstants;
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenmint.entities.ETHContractInfo;
-import com.monolith.tokenmint.entities.GameInfo;
-import com.monolith.tokenmint.entities.ItemInfoBean;
+import com.monolith.tokenmint.entities.GameItemsEntity;
 import com.monolith.tokenmint.beans.PlayerInfo;
-import com.monolith.tokenmint.entities.ProviderInfo;
+import com.monolith.tokenmint.entities.ChainProviderInfoEntity;
 import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.dao.GameInfoDAO;
 import com.monolith.tokenmint.dto.CreateTokenRequest;
@@ -89,13 +89,13 @@ public class CreateTokenHandler {
 		
 		String gameId = createTokenRequest.getGameId();
 		
-		GameInfo gameInfo = gameInfoDAO.getGameInfoByGameId(gameId);
-		if(gameInfo == null) {
+		GameInfoEntity gameInfoEntity = gameInfoDAO.getGameInfoByGameId(gameId);
+		if(gameInfoEntity == null) {
 			logger.error("Game Info Could Not Be Found");
 			return createTokenResponse.setStatusCodeDesc(TokenMintConstants.RESPONSE_CODE_VALIDATEION_FAILED, "Game Config Could Not Be Found");
 		}else {
 			createTokenTransactionBean.setGameId(gameId);
-			createTokenTransactionBean.setGameInfo(gameInfo);
+			createTokenTransactionBean.setGameInfoEntity(gameInfoEntity);
 		}
 			
 		PlayerInfo playerInfo = createTokenRequest.getPlayerInfo();
@@ -106,32 +106,32 @@ public class CreateTokenHandler {
 			createTokenTransactionBean.setPalyerInfo(playerInfo);
 		}
 		
-		ItemInfoBean reqItemInfoBean = createTokenRequest.getGameItemInfo();
-		ItemInfoBean itemInfoBean = itemInfoDAO.getItemInfoFromItemIdForGame(gameId,reqItemInfoBean.getItemId());
-		if(itemInfoBean == null) {
+		GameItemsEntity reqGameItemsEntity = createTokenRequest.getGameItemInfo();
+		GameItemsEntity gameItemsEntity = itemInfoDAO.getItemInfoFromItemIdForGame(gameId, reqGameItemsEntity.getItemId());
+		if(gameItemsEntity == null) {
 			logger.error("Item Info Could Not be Found");
 			return createTokenResponse.setStatusCodeDesc(TokenMintConstants.RESPONSE_CODE_VALIDATEION_FAILED, "Request Item Could not be found");
 		}else {
-			itemInfoBean.setItemQuantity(reqItemInfoBean.getItemQuantity());
-			createTokenTransactionBean.setItemInfoBean(itemInfoBean);
+			gameItemsEntity.setItemQuantity(reqGameItemsEntity.getItemQuantity());
+			createTokenTransactionBean.setGameItemsEntity(gameItemsEntity);
 		}
 		
 		String ethContractId = createTokenRequest.getEthContractId();
-		ETHContractInfo ethContractInfo = ethContractInfoDAO.getEthContractInfoForGame(gameId,ethContractId);
-		if(ethContractInfo == null) {
+		ETHContractInfoEntity ethContractInfoEntity = ethContractInfoDAO.getEthContractInfoForGame(gameId,ethContractId);
+		if(ethContractInfoEntity == null) {
 			logger.error("Eth Contract Info Could Not be Found");
 			return createTokenResponse.setStatusCodeDesc(TokenMintConstants.RESPONSE_CODE_VALIDATEION_FAILED, "Ethereum Contract Info Could not be found");
 		}else {
-			createTokenTransactionBean.setEthContractInfo(ethContractInfo);
+			createTokenTransactionBean.setEthContractInfoEntity(ethContractInfoEntity);
 		}
 		
-		String providerId = ethContractInfo.getProviderId();
-		ProviderInfo providerInfo = providerInfoDAO.getProviderInfo(providerId);
-		if(providerInfo == null) {
+		String providerId = ethContractInfoEntity.getProviderId();
+		ChainProviderInfoEntity chainProviderInfoEntity = providerInfoDAO.getProviderInfo(providerId);
+		if(chainProviderInfoEntity == null) {
 			logger.error("Eth Contract Info Could Not be Found");
 			return createTokenResponse.setStatusCodeDesc(TokenMintConstants.RESPONSE_CODE_VALIDATEION_FAILED, "Ethereum Contract Info Could not be found");
 		}else {
-			createTokenTransactionBean.setProviderInfo(providerInfo);
+			createTokenTransactionBean.setChainProviderInfoEntity(chainProviderInfoEntity);
 		}
 		
 		

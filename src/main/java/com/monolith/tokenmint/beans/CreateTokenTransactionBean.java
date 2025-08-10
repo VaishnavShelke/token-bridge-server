@@ -1,9 +1,9 @@
 package com.monolith.tokenmint.beans;
 
-import com.monolith.tokenmint.entities.ETHContractInfo;
-import com.monolith.tokenmint.entities.GameInfo;
-import com.monolith.tokenmint.entities.ItemInfoBean;
-import com.monolith.tokenmint.entities.ProviderInfo;
+import com.monolith.tokenmint.entities.ETHContractInfoEntity;
+import com.monolith.tokenmint.entities.GameInfoEntity;
+import com.monolith.tokenmint.entities.GameItemsEntity;
+import com.monolith.tokenmint.entities.ChainProviderInfoEntity;
 
 import lombok.Data;
 
@@ -18,10 +18,10 @@ public class CreateTokenTransactionBean {
 	private String tableName;
 	private String recieptientAddress;
 	private String gameLandingPage;
-	private GameInfo gameInfo;
-	private ETHContractInfo ethContractInfo;
+	private GameInfoEntity gameInfoEntity;
+	private ETHContractInfoEntity ethContractInfoEntity;
 	private PlayerInfo palyerInfo;
-	private ItemInfoBean itemInfoBean;
+	private GameItemsEntity gameItemsEntity;
 	private OnChainTxnInfo onChainTxnInfo;
-	private ProviderInfo providerInfo;
+	private ChainProviderInfoEntity chainProviderInfoEntity;
 }
