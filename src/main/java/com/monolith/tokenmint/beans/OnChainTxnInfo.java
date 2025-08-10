@@ -1,6 +1,6 @@
 package com.monolith.tokenmint.beans;
 
-import com.monolith.tokenmint.create.dto.Web3GtwTransferTokenRequest;
+import com.monolith.tokenmint.dto.Web3GtwTransferTokenRequest;
 
 import lombok.Data;
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monolith.shared.utils.Utility;
-import com.monolith.tokenmint.create.beans.CreateTokenTransactionBean;
+import com.monolith.tokenmint.beans.CreateTokenTransactionBean;
 import com.monolith.tokenmint.entities.TokenMintTransaction;
 import com.monolith.tokenmint.repository.TokenMintTransactionRepository;
 

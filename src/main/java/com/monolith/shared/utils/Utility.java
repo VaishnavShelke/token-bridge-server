@@ -56,19 +56,7 @@ public class Utility {
 		 hexValue = "0x" + hexValue;
 		 return hexValue;
 	 }
-	 
-	 public static String HexToUUID(String hexValue) {
-		if (hexValue.length() != 32) {
-		    logger.error("Invalid hexadecimal UUID");
-		    return null;
-		}
-		String uuidString = hexValue.substring(0, 8) + "-" +
-		                    hexValue.substring(8, 12) + "-" +
-		                    hexValue.substring(12, 16) + "-" +
-		                    hexValue.substring(16, 20) + "-" +
-		                    hexValue.substring(20);
-		return uuidString;
-	 }
+
 	 
 	 public static String getTransactionTableName() {
 		String currentDate = LocalDate.now().toString();
@@ -90,11 +78,7 @@ public class Utility {
         return compressedURL;
     }
 
-    public static String decompressURL(String compressedURL) {
-        byte[] bytes = Base64.getDecoder().decode(compressedURL);
-        String url = new String(bytes);
-        return url;
-    }
+
 	
 
 }

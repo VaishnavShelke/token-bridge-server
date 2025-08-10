@@ -3,7 +3,7 @@ package com.monolith.tokenbank.helper;
 import com.monolith.shared.utils.Utility;
 import com.monolith.tokenbank.dto.OnBoardGameRequest;
 import com.monolith.tokenmint.entities.GameInfo;
-import com.monolith.tokenmint.create.dao.GameInfoDAO;
+import com.monolith.tokenmint.dao.GameInfoDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
